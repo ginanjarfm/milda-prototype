@@ -1,0 +1,1440 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Milda Recall</title>
+<link rel="icon" href="assets/logo-mark.png">
+<style>
+@font-face{font-family:"Plus Jakarta Sans";font-weight:400;font-style:normal;font-display:swap;src:url(assets/pjs-400.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:500;font-style:normal;font-display:swap;src:url(assets/pjs-500.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:600;font-style:normal;font-display:swap;src:url(assets/pjs-600.woff2) format("woff2")}
+@font-face{font-family:"Plus Jakarta Sans";font-weight:700;font-style:normal;font-display:swap;src:url(assets/pjs-700.woff2) format("woff2")}
+@font-face{font-family:"Marcellus";font-weight:400;font-style:normal;font-display:swap;src:url(assets/marcellus-400.woff2) format("woff2")}
+
+:root{
+  --espresso:#2B2420;--bronze:#7A5C3A;--bronze-hover:#664C2F;--champagne:#B89878;--champagne-soft:#F1EAE1;
+  --wire:#C9C9C9;--line:#E6E3DF;--porcelain:#F6F6F3;--surface:#FFFFFF;--muted:#6B625B;
+  --done:#3F6B4E;--late:#9C3F2A;--scheduled:#44546A;--wa:#1F7A47;
+  --ld-g:#DDEBDF;--ld-y:#F1E6CF;--ld-o:#F6C98A;--ld-r:#EDB8AB;--ld-g-t:#2D5A3D;--ld-y-t:#5E4A1E;--ld-o-t:#6B3F08;--ld-r-t:#6E2414;
+  --font:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --serif:"Marcellus","Trajan Pro",Georgia,serif;
+  --nav-text:#E9E4DE;
+  --ring:#8F6F4D;--field:#8F8780;--r-ctl:10px;--r-list:14px;--r-sheet:16px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--font);font-size:16px;line-height:1.5;color:var(--espresso);background:var(--porcelain);-webkit-font-smoothing:antialiased;font-variant-numeric:tabular-nums}
+h1,h2,h3,p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+img{display:block}
+:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
+.side :focus-visible,#toast :focus-visible{outline-color:var(--champagne)}
+a.lr:focus-visible,.lr[role=button]:focus-visible{outline-offset:-3px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--surface);color:var(--bronze);font-weight:600;padding:10px 16px;border-radius:var(--r-ctl);box-shadow:0 4px 16px rgba(43,36,32,.2)}
+.skip:focus{top:12px}
+body.modal-open{overflow:hidden}
+main:focus{outline:none}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.muted{color:var(--muted)}
+.sm{font-size:13px}
+.only-d{display:none!important}
+.only-m{display:block}
+.title{font-family:var(--serif);font-weight:400;font-size:24px;line-height:1.2;margin:0;letter-spacing:0}
+
+/* ---------- shell ---------- */
+.side{display:none}
+.topbar{position:sticky;top:0;z-index:20;height:56px;background:var(--surface);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.topbar img{height:28px;width:auto}
+main{padding:20px 16px 104px}
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:var(--surface);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);padding-bottom:env(safe-area-inset-bottom)}
+.tabbar a{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;height:64px;padding-top:4px;color:var(--muted);font-size:13px;font-weight:500}
+.tabbar a.on{color:var(--bronze);font-weight:600}
+.tabbar a.on::before{content:"";position:absolute;top:5px;width:8px;height:5px;border-radius:2px;background:var(--champagne)}
+.tabbar .badge{position:absolute;top:8px;left:calc(50% + 4px);min-width:18px;padding:0 5px;border-radius:999px;background:var(--bronze);color:#fff;font-size:13px;line-height:18px;font-weight:700;text-align:center}
+
+@media(min-width:960px){
+  .only-d{display:block!important}.only-m{display:none!important}
+  span.only-d{display:inline!important}
+  .topbar,.tabbar{display:none}
+  .shell{display:grid;grid-template-columns:248px minmax(0,1fr);min-height:100vh}
+  .side{display:block;background:var(--espresso);color:var(--nav-text)}
+  .side-in{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;padding:28px 16px 20px;overflow-y:auto}
+  .content{min-width:0}
+  main{padding:40px 48px 72px}
+  .title{font-size:28px}
+}
+@media(min-width:960px) and (max-width:1199px){.shell{grid-template-columns:216px minmax(0,1fr)}main{padding:32px 32px 64px}}
+.side .brand{padding:0 8px 28px}
+.side .brand img{width:100%;max-width:150px;height:auto}
+.side nav{display:flex;flex-direction:column;gap:2px}
+.side nav a{position:relative;display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-ctl);font-size:15px;font-weight:500;color:var(--nav-text)}
+@media(hover:hover){.side nav a:hover{background:rgba(255,255,255,.05)}}
+.side nav a.on{background:rgba(255,255,255,.09);color:#fff;font-weight:600}
+.side nav a.on::before{content:"";position:absolute;left:-16px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--champagne)}
+.badge{margin-left:auto;min-width:24px;padding:0 8px;border-radius:999px;background:var(--champagne-soft);color:var(--bronze);font-size:13px;line-height:22px;font-weight:700;text-align:center}
+.side .foot{margin-top:auto;padding:16px 8px 0;border-top:1px solid rgba(255,255,255,.12);display:flex;flex-direction:column;gap:12px}
+.side .foot .clinic{font-size:13px;color:#BDB3A9;line-height:1.4}
+.side .foot .proto{font-size:13px;color:#A99F95}
+.side .foot a{display:inline-flex;align-items:center;gap:8px;font-size:14px;font-weight:500;color:var(--nav-text);padding:6px 0;width:max-content}
+@media(hover:hover){.side .foot a:hover{color:#fff}}
+
+/* ---------- page header ---------- */
+.ph{display:flex;flex-direction:column;gap:4px;margin-bottom:20px}
+.ph .sub{color:var(--muted);font-size:14px}
+@media(min-width:960px){.ph{flex-direction:row;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}.ph .sub{font-size:16px;text-align:right}.ph .sub.l{text-align:left}}
+.ph-l{display:flex;flex-direction:column;gap:6px}
+
+/* ---------- buttons, chips, fields ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:0 18px;border-radius:var(--r-ctl);border:1px solid var(--bronze);background:var(--surface);color:var(--bronze);font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .12s,color .12s,border-color .12s}
+@media(hover:hover){.btn:hover{background:var(--champagne-soft)}}
+.btn.primary{background:var(--bronze);color:#fff}
+@media(hover:hover){.btn.primary:hover{background:var(--bronze-hover);border-color:var(--bronze-hover)}}
+.btn:active{background:var(--champagne-soft)}.btn.primary:active{background:var(--bronze-hover)}.btn.wa:active{background:#18623a}
+.btn.wa{background:var(--wa);border-color:var(--wa);color:#fff}
+@media(hover:hover){.btn.wa:hover{background:#18623a;border-color:#18623a}}
+.btn.bad{border-color:var(--late);color:var(--late)}
+@media(hover:hover){.btn.bad:hover{background:color-mix(in srgb,var(--late) 10%,#fff)}}
+.btn.ghost{border-color:transparent;background:transparent}
+@media(hover:hover){.btn.ghost:hover{background:var(--champagne-soft)}}
+.btn.quiet{border-color:var(--wire);color:var(--espresso)}
+@media(hover:hover){.btn.quiet:hover{border-color:var(--champagne)}}
+.btn.xl{display:none}
+.btn.sm{min-height:36px;padding:0 14px;font-size:14px}
+.btn.ic{width:40px;min-height:40px;padding:0}
+.btn[disabled]{opacity:.5;cursor:default}
+@media(min-width:960px){.btn{min-height:40px}.btn.sm{min-height:36px}}
+.chip{display:inline-block;padding:1px 10px;border-radius:999px;font-size:13px;line-height:22px;font-weight:600;white-space:nowrap;background:color-mix(in srgb,var(--c,var(--muted)) 12%,#fff);color:var(--c,var(--muted))}
+.c-done{--c:var(--done)}.c-late{--c:var(--late)}.c-sched{--c:var(--scheduled)}.c-bronze{--c:var(--bronze)}.c-muted{--c:var(--muted)}
+.chip.c-bronze{background:var(--champagne-soft)}
+.chip.pst::before{content:"";display:inline-block;width:6px;height:6px;border-radius:2px;background:currentColor;margin-right:6px;vertical-align:1px}
+.chip.tag{background:transparent;color:var(--bronze);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--bronze) 45%,#fff)}
+.fchip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:0 14px;min-height:36px;font-size:14px;font-weight:500;cursor:pointer;color:var(--espresso)}
+@media(hover:hover){.fchip:hover{border-color:var(--champagne)}}
+.fchip.on{background:var(--champagne-soft);border-color:var(--bronze);color:var(--bronze);font-weight:600}
+.fchips{display:flex;flex-wrap:wrap;gap:8px}
+label.lb,.lbl{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--espresso)}
+.lbl span{font-weight:400;color:var(--muted);margin-left:6px}
+input[type=text],input[type=number],input[type=date],input[type=time],input[type=password],input[type=search],input:not([type]),select,textarea{width:100%;min-height:44px;padding:9px 12px;border:1px solid var(--field);border-radius:var(--r-ctl);background:var(--surface);font-size:16px}
+input::placeholder,textarea::placeholder{color:#736A63}
+textarea{min-height:96px;resize:vertical;line-height:1.5}
+@media(hover:hover){input:hover,select:hover,textarea:hover{border-color:var(--bronze)}}
+input:focus-visible,select:focus-visible,textarea:focus-visible{border-color:var(--bronze)}
+.fld{margin-bottom:16px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.help{font-size:14px;color:var(--late);min-height:20px;margin-top:4px}
+.hint{font-size:14px;color:var(--muted);margin-top:8px}
+@media(min-width:960px){input[type=text],input[type=number],input[type=date],input[type=time],input[type=password],input[type=search],input:not([type]),select{min-height:40px;font-size:15px}}
+input[aria-invalid=true]{border-color:var(--late)}
+
+/* segmented control */
+.seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:var(--r-ctl);background:var(--porcelain)}
+.seg.g2{display:grid;grid-template-columns:1fr 1fr}
+@media(min-width:600px){.seg.g2{display:flex}}
+.seg button{flex:1 1 auto;min-height:40px;padding:0 12px;border:0;border-radius:8px;background:transparent;font-size:14px;font-weight:500;cursor:pointer;color:var(--espresso)}
+@media(hover:hover){.seg button:hover{background:rgba(0,0,0,.03)}}
+.seg button.on{background:var(--surface);box-shadow:inset 0 0 0 1.5px var(--bronze);font-weight:600;color:var(--espresso)}
+
+/* ---------- ledger ---------- */
+.ledger{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);overflow:hidden;container-type:inline-size}
+.lr{display:grid;grid-template-columns:var(--cols,1fr);gap:6px 20px;align-items:center;padding:14px 16px;border-top:1px solid var(--line)}
+.ledger>.lr:first-child,.ledger>.lh:first-child{border-top:0}
+.lr.out{animation:rowout .26s ease forwards}
+@keyframes rowout{to{opacity:0;transform:translateX(14px)}}
+.nm{font-size:16px;font-weight:600;line-height:1.35;color:var(--espresso)}
+@media(hover:hover){a.nm:hover{color:var(--bronze);text-decoration:underline;text-decoration-color:var(--champagne);text-underline-offset:3px}}
+.sub{font-size:14px;color:var(--muted);line-height:1.45}
+.meta{display:flex;flex-wrap:wrap;align-items:center;column-gap:12px}
+.meta .chip{line-height:20px}
+.sect.plain{background:none;border:0;padding:0}
+.st-late{color:var(--late);font-weight:600}.st-soon{color:var(--bronze);font-weight:600}.st-sched{color:var(--scheduled);font-weight:600}
+.empty{padding:36px 20px;text-align:center;color:var(--muted);font-size:15px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.empty b{color:var(--espresso);font-size:16px;font-weight:600}
+.empty .btn{margin-top:12px}
+.empty.slim{padding:16px 20px;font-size:14px}
+.acts{display:flex;flex-wrap:wrap;gap:8px}
+.acts .btn{flex:1 1 auto}
+.note{font-size:14px;color:var(--muted);margin-top:2px;white-space:nowrap}
+
+/* today row */
+.tr{grid-template-columns:52px minmax(0,1fr) auto;gap:4px 12px}
+.tr .c-main{display:contents}
+.tr .c-name{grid-column:2;grid-row:1;min-width:0}
+.tr .c-sub{grid-column:2/-1;grid-row:2}
+.tr .c-note{grid-column:2/-1;grid-row:3}
+.tr .c-time .sm{display:none}
+.tr .c-act{margin-top:8px}
+.tr .c-act .btn{flex:1 1 0}
+.tr .c-time{grid-column:1;grid-row:1;display:flex;flex-direction:column;line-height:1.3}
+.tr .c-time b{font-size:16px;font-weight:600}
+.tr .c-chip{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:4px;align-items:flex-end}
+.tr .c-type{display:none}
+.tr .c-act{grid-column:1/-1;grid-row:4;display:flex;gap:8px}
+.tr .c-act:empty{display:none}
+.tr.is-missed .nm{color:var(--espresso)}
+.tr.is-done .c-time b{color:var(--muted)}
+
+/* recall + patient rows (phone layout) */
+.rr{grid-template-columns:minmax(0,1fr) auto}
+.rr .c-due{grid-column:2;grid-row:1;text-align:right}
+.rr .c-iv{grid-column:1/-1}
+.rr .c-act{grid-column:1/-1}
+.rr .c-main .meta,.fr .c-main .meta{flex-direction:column;align-items:flex-start}
+.rr .c-iv{display:none}
+.pr{grid-template-columns:minmax(0,1fr) auto}
+.pr .c-stat{grid-column:2;grid-row:1}
+.pr .c-next{grid-column:1/-1;font-size:14px}
+.pr .c-treat{display:none}
+.fr{grid-template-columns:minmax(0,1fr) auto}
+.fr .c-due{grid-column:2;grid-row:1;text-align:right}
+.fr .c-act{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr}
+.fr .c-act .start{grid-column:1/-1}
+
+/* list layouts follow the width of the list itself, not the screen:
+   narrow = phone, mid = tablet or small window (actions sit under the name), wide = columns with a header row */
+@container (min-width:560px){
+  .lr{padding:14px 24px}
+  .tr{grid-template-columns:72px minmax(0,1fr) auto}
+  .tr .c-time .sm{display:block}
+  .tr .c-act{grid-column:2/-1}
+  .tr .c-act .btn,.rr .c-act .btn,.fr .c-act .btn{flex:0 0 auto}
+  .fr .c-act{display:flex;flex-wrap:wrap}
+}
+@container (min-width:1000px){
+  .lr{gap:6px 24px}
+  .lh.lh-c{display:grid}
+  .cn{display:none}
+  .tr{--cols:72px minmax(0,1.3fr) minmax(0,1fr) 112px 300px;grid-template-columns:var(--cols)}
+  .tr .c-time{grid-column:auto;grid-row:auto}
+  .tr .c-name,.tr .c-sub,.tr .c-note,.tr .c-chip,.tr .c-act,.tr .c-type{grid-column:auto;grid-row:auto}
+  .tr .c-type{display:block;font-size:15px}
+  .tr .c-type .kchip{margin-top:4px}
+  .tr .t-type{display:none}
+  .tr .c-chip{align-items:flex-start}
+  .tr .c-act{display:flex;justify-content:flex-end;gap:8px;margin-top:0}
+  .tr .c-sub .kc{display:none}
+  .tr .c-main{display:block}
+  .rr{--cols:minmax(0,1.4fr) minmax(0,1fr) minmax(0,.9fr) 270px;grid-template-columns:var(--cols)}
+  .rr .c-due,.rr .c-iv,.rr .c-act{grid-column:auto;grid-row:auto;text-align:left}
+  .rr .c-iv{display:block;font-size:15px}
+  .rr .c-act{justify-content:flex-end}
+  .rr .c-main .meta{flex-direction:row}
+  .fr{--cols:minmax(0,1fr) minmax(0,.8fr) 470px;grid-template-columns:var(--cols)}
+  .fr .c-due,.fr .c-act{grid-column:auto;grid-row:auto;text-align:left}
+  .fr .c-act{display:flex;justify-content:flex-end}
+  .fr .c-act .wa{width:128px}.fr .c-act .quiet{width:160px}.fr .c-act .start{width:150px}
+}
+.lh{display:none;grid-template-columns:var(--cols);gap:0 24px;padding:12px 24px;font-size:13px;font-weight:600;color:var(--muted)}
+@media(min-width:960px){
+  .lh.lh-v{display:grid}
+  .ledger .pr{padding:14px 24px;gap:6px 24px}
+  .pr{--cols:minmax(0,1.2fr) minmax(0,1.1fr) minmax(0,1.3fr) 108px;grid-template-columns:var(--cols)}
+  .pr .c-main{grid-column:1;grid-row:1}.pr .c-treat{grid-column:2;grid-row:1}.pr .c-next{grid-column:3;grid-row:1}.pr .c-stat{grid-column:4;grid-row:1}
+  .pr .c-treat{display:block}
+}
+
+/* tabs */
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.tabs button{display:flex;align-items:center;justify-content:space-between;gap:8px;min-height:44px;padding:6px 12px;border:1px solid var(--line);border-radius:var(--r-ctl);background:var(--surface);font-size:14px;font-weight:500;text-align:left;cursor:pointer;line-height:1.3}
+.tabs button.on{background:var(--champagne-soft);border-color:var(--bronze);color:var(--bronze);font-weight:600}
+.descrow{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px 0 14px;flex-wrap:wrap}
+.tabdesc{color:var(--muted);font-size:14px;margin:0}
+.tb-act{display:flex;gap:8px;flex-wrap:wrap}.tb-act .btn{flex:1 1 auto}
+@media(min-width:600px){.tabs{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:960px){.btn.xl{display:inline-flex}.hide-d{display:none!important}.tb-act .btn{flex:0 0 auto}.toolbar{margin-bottom:12px}}
+.pchips{display:flex;align-items:center;justify-content:space-between;gap:8px 16px;flex-wrap:wrap;margin:4px 0 12px;min-height:30px}
+.pchips:not(:has(.fcs *,.sub)){display:none}
+.fcs{display:flex;gap:8px;flex-wrap:wrap}
+.fc{display:inline-flex;align-items:center;gap:4px;background:var(--champagne-soft);color:var(--espresso);border-radius:999px;padding:2px 4px 2px 12px;font-size:14px;line-height:24px}
+.fc button{width:28px;height:28px;border:0;border-radius:999px;background:none;font-size:18px;line-height:1;cursor:pointer;color:var(--bronze)}
+@media(hover:hover){.fc button:hover{background:rgba(122,92,58,.14)}}
+.hc{display:flex;align-items:center;gap:2px}
+.hb{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:4px 0;font:inherit;font-weight:600;color:var(--muted);cursor:pointer;border-radius:6px;text-align:left}
+@media(hover:hover){.hb:hover{color:var(--espresso)}}
+.hb svg.i{width:14px;height:14px;color:var(--bronze)}
+.fb{width:28px;height:28px;display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:8px;background:none;color:var(--muted);cursor:pointer;padding:0}
+.fb svg.i{width:14px;height:14px}
+@media(hover:hover){.fb:hover{background:var(--champagne-soft);color:var(--bronze)}}
+.fb.on{background:var(--champagne-soft);color:var(--bronze)}
+.pop{position:fixed;z-index:60;width:272px;max-height:min(480px,calc(100vh - 80px));overflow-y:auto;background:var(--surface);border-radius:var(--r-list);box-shadow:0 12px 40px rgba(43,36,32,.18);padding:12px 8px 8px;animation:sheet .16s ease-out}
+.pop-t{font-size:14px;font-weight:600;padding:0 8px 6px}
+.afi{display:flex;align-items:center;gap:10px;min-height:36px;padding:0 8px;border-radius:8px;font-size:15px;cursor:pointer}
+@media(hover:hover){.afi:hover{background:var(--champagne-soft)}}
+.afi.all{font-weight:600;border-bottom:1px solid var(--line);border-radius:8px 8px 0 0;margin-bottom:4px}
+.afi input{width:18px;height:18px;margin:0;accent-color:var(--bronze)}
+.pop-f{display:flex;justify-content:space-between;gap:8px;padding:8px 4px 0;margin-top:6px;border-top:1px solid var(--line)}
+.afgrid [data-afc]{display:grid;grid-template-columns:1fr 1fr}
+.afgrid .afi.all{grid-column:1/-1}
+.afgrid [data-afc=tx]{grid-template-columns:1fr}
+.afgrid .afi{min-height:40px}
+.wa-to{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.wa-to b{font-size:16px}
+.wa-av{width:40px;height:40px;border-radius:999px;background:var(--champagne-soft);color:var(--bronze);display:flex;align-items:center;justify-content:center;font-weight:700}
+.tabs em{font-style:normal;font-size:13px;font-weight:700;min-width:24px;padding:0 6px;line-height:22px;border-radius:999px;text-align:center;background:var(--champagne-soft);color:var(--bronze)}
+.tabs button.on em{background:var(--surface)}
+@media(min-width:960px){
+  .tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:20px}
+  .tabs button{white-space:nowrap;border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:10px 0 12px;margin-bottom:-1px;font-size:15px;min-height:0;gap:10px}
+@media(hover:hover){  .tabs button:hover{border-bottom-color:var(--champagne)}}
+  .tabs button.on{background:none;border-bottom-color:var(--bronze);color:var(--bronze)}
+}
+
+/* summary */
+.summary{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);padding:16px;margin-bottom:16px;display:flex;flex-direction:column;gap:12px}
+.summary .big{font-size:22px;font-weight:600;line-height:1.2}
+.sbar{display:flex;height:8px;border-radius:999px;overflow:hidden;background:var(--line);gap:2px}
+.sbar i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:10px;font-size:14px;color:var(--muted)}
+.lg{display:inline-flex;align-items:center;gap:6px}
+.lg i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media(min-width:960px){.summary{flex-direction:row;align-items:center;gap:40px;padding:18px 24px;margin-bottom:24px}.summary>div:first-child{min-width:150px}.summary>div:last-child{flex:1}.legend{margin-top:10px}}
+
+.toolbar{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.search{position:relative}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.search input{padding-left:40px}
+.tb-row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.tb-row select{width:auto;min-width:180px;flex:1 1 180px}
+@media(min-width:960px){.toolbar{flex-direction:row;align-items:center;flex-wrap:wrap}.toolbar .search{flex:0 1 340px}.toolbar .sp{flex:1}}
+.sp{flex:1}
+
+/* ---------- detail ---------- */
+.back{display:inline-flex;align-items:center;gap:4px;color:var(--bronze);font-weight:600;font-size:14px;margin:-4px 0 12px;min-height:36px}
+.dhead{display:flex;flex-direction:column;gap:16px;margin-bottom:20px}
+.dhead .nmrow{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dhead .ph-num{color:var(--muted);font-size:14px;margin-top:6px}
+.dhead .acts .btn{flex:1 1 140px}
+@media(min-width:600px){.dhead .acts .btn{flex:0 0 auto}}
+@media(min-width:960px){.dhead{margin-bottom:24px}.dhead .ph-num{font-size:15px}}
+@media(min-width:1200px){.dhead{flex-direction:row;align-items:flex-end;justify-content:space-between}}
+.facts{display:grid;grid-template-columns:1fr 1fr;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);margin-bottom:20px;overflow:hidden}
+.facts>div{padding:14px 16px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.facts>div:nth-child(-n+2){border-top:0}
+.facts>div:nth-child(odd){border-left:0}
+.facts .k{font-size:13px;color:var(--muted)}
+.facts .v{font-size:16px;font-weight:600;line-height:1.35;margin-top:2px}
+.facts .v small{display:block;font-weight:400;font-size:14px;color:var(--muted);margin-top:2px}
+.facts .lnk{background:none;border:0;padding:0;color:var(--bronze);font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;text-decoration-color:var(--champagne);text-underline-offset:3px;margin-top:4px;min-height:28px}
+@media(min-width:600px){.facts{grid-template-columns:repeat(3,1fr)}.facts>div,.facts>div:nth-child(-n+2),.facts>div:nth-child(odd){border-top:1px solid var(--line);border-left:1px solid var(--line)}.facts>div:nth-child(-n+3){border-top:0}.facts>div:nth-child(3n+1){border-left:0}}
+@media(min-width:1200px){.facts{grid-template-columns:repeat(6,1fr)}.facts>div,.facts>div:nth-child(3n+1){border-top:0;border-left:1px solid var(--line)}.facts>div:first-child{border-left:0}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);padding:18px 16px;margin-bottom:20px}
+.panel h2,.sect h2{font-size:18px;font-weight:600;line-height:1.3}
+.panel .d,.sect .d{font-size:14px;color:var(--muted);margin-top:2px}
+.wire{overflow-x:auto;margin:12px -4px 0;padding:0 4px}
+.wire svg{display:block}
+.wire text{font-family:var(--font);font-size:13px;fill:var(--muted);font-variant-numeric:tabular-nums}
+.wire text.hl{fill:var(--espresso);font-weight:600}
+.wire text.bad{fill:var(--late);font-weight:600}
+.wire text.due{fill:var(--bronze);font-weight:600}
+.wlegend{display:flex;flex-wrap:wrap;gap:6px 20px;margin-top:10px;font-size:13px;color:var(--muted)}
+.wlegend span{display:inline-flex;align-items:center;gap:8px}
+.wlegend svg{width:24px;height:14px}
+@media(min-width:960px){.panel{padding:22px 28px}}
+.two{display:grid;gap:20px}
+@media(min-width:1200px){.two{grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:24px;align-items:start}.two.one{grid-template-columns:minmax(0,1fr)}}
+.sect h2{margin-bottom:10px}
+.hr{grid-template-columns:minmax(0,1fr) auto}
+.hr .t{font-size:15px;font-weight:500}
+
+/* ---------- calendar ---------- */
+.calcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);overflow:hidden}
+.calbar{display:flex;align-items:center;gap:8px;padding:14px 20px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.calbar h2{font-size:18px;font-weight:600;margin-left:8px;min-width:0}
+.blk:focus-visible{outline-offset:-2px}
+.calh,.calb{display:grid;grid-template-columns:56px repeat(6,minmax(0,1fr))}
+.calh>div{padding:10px 8px;text-align:center;border-left:1px solid var(--line);font-size:14px;color:var(--muted);display:flex;flex-direction:column;align-items:center;gap:2px}
+.calh>div:first-child{border-left:0}
+.calh b{font-size:18px;color:var(--espresso);font-weight:600}
+.calh .today b{color:#fff;background:var(--bronze);border-radius:999px;min-width:30px;line-height:30px}
+.calh{border-bottom:1px solid var(--line)}
+.hours div{height:46px;font-size:13px;color:var(--muted);text-align:right;padding-right:8px;transform:translateY(-9px)}
+.col{position:relative;border-left:1px solid var(--line);height:460px;background-image:linear-gradient(var(--line) 1px,transparent 1px);background-size:100% 46px}
+.col.today{background-color:#FBF8F4}
+.blk{position:absolute;padding:2px 6px;border-radius:6px;font-size:13px;line-height:1.35;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;border-left:3px solid var(--scheduled);background:color-mix(in srgb,var(--scheduled) 12%,#fff);color:var(--espresso);cursor:pointer}
+.blk b{font-weight:600;margin-right:5px}
+.blk.done{border-left-color:var(--done);background:color-mix(in srgb,var(--done) 12%,#fff)}
+.blk.missed{border-left-color:var(--late);background:color-mix(in srgb,var(--late) 12%,#fff)}
+.blk.kind{border-left-color:var(--bronze);background:var(--champagne-soft)}
+.ld{display:inline-block;font-size:13px;font-weight:600;line-height:20px;padding:0 8px;border-radius:999px;background:var(--ld-g);color:var(--ld-g-t)}
+.ld.y{background:var(--ld-y);color:var(--ld-y-t)}
+.ld.o{background:var(--ld-o);color:var(--ld-o-t)}
+.ld.r{background:var(--ld-r);color:var(--ld-r-t)}
+.calleg{padding:10px 20px;border-bottom:1px solid var(--line)}.calleg .hlegend{margin:0}
+.mg{width:100%;border-collapse:collapse;table-layout:fixed}
+.mg th{font-size:13px;font-weight:600;color:var(--muted);padding:10px 8px;text-align:left;border-bottom:1px solid var(--line)}
+.mg td{vertical-align:top;height:112px;padding:8px;border-left:1px solid var(--line);border-top:1px solid var(--line);font-size:13px}
+.mg td:first-child{border-left:0}
+.mg td.out{background:var(--porcelain);color:var(--muted)}
+.mg td.sun{background:var(--porcelain);color:var(--muted)}
+.mg .ln.lk:focus-visible{outline-offset:0}
+.mg td.g{background:color-mix(in srgb,var(--ld-g) 65%,#fff)}.mg td.y{background:color-mix(in srgb,var(--ld-y) 80%,#fff)}.mg td.o{background:color-mix(in srgb,var(--ld-o) 55%,#fff)}.mg td.r{background:color-mix(in srgb,var(--ld-r) 80%,#fff)}
+.mg td.past{background:var(--porcelain)}.mg td.past .dn,.mg td.past .dlz,.mg td.past .ln,.mg td.past .ln b{color:var(--muted)}
+.mg td.today{box-shadow:inset 0 0 0 2px var(--bronze)}
+.mg td.today .dn{background:var(--bronze);color:#fff;border-radius:999px;padding:0 7px}
+.mg .dh{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.mg .dn{font-weight:600;font-size:14px;color:var(--espresso)}
+.mg .dlz{font-size:13px;color:#574E47}
+.mg .ln{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;line-height:1.5;color:#574E47}
+.mg .ln b{color:var(--espresso);font-weight:600;margin-right:4px}
+.mg .ln.lk{cursor:pointer}@media(hover:hover){.mg .ln.lk:hover{color:var(--bronze)}}
+.mg .more{color:var(--espresso);text-decoration:underline;text-underline-offset:2px;font-weight:600;cursor:pointer;background:none;border:0;padding:0;font-size:13px}
+.calbar-m{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.calbar-m h2{font-size:16px;font-weight:600;flex-basis:100%}
+.daysec{margin-bottom:20px}
+.daysec h3{font-size:16px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.hrow{grid-template-columns:56px minmax(0,1fr) auto}
+
+/* ---------- settings ---------- */
+.set{display:flex;flex-direction:column;gap:20px}
+@media(min-width:1200px){.set{display:block;columns:2;column-gap:24px}.set>.sect{break-inside:avoid;margin-bottom:24px}}
+.sect{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-list);padding:18px 16px}
+.sect .inner{margin-top:14px}
+.trow{display:grid;grid-template-columns:1fr auto auto;gap:8px 12px;align-items:center;padding:12px 0;border-top:1px solid var(--line)}
+.trow:first-child{border-top:0}
+.trow .tn{font-weight:600;font-size:15px}
+.trow .sub{grid-column:1/-1;margin-top:-4px}
+.trow input{width:84px}
+.trow .inl{grid-column:2/-1;display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.trow .inl .sub{grid-column:auto;margin:0}
+.trow select{width:110px}
+.grp{font-size:14px;font-weight:600;color:var(--bronze);margin:18px 0 2px}
+.grp:first-child{margin-top:0}
+.qchips{display:flex;flex-wrap:wrap;gap:8px}
+.hints{margin-top:8px;font-size:14px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hints button{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:2px 10px;font-size:14px;cursor:pointer;min-height:32px}
+@media(hover:hover){.hints button:hover{border-color:var(--champagne);background:var(--champagne-soft)}}
+.preview{margin-top:12px;padding:12px 14px;border-radius:var(--r-ctl);background:var(--porcelain);font-size:14px;color:var(--espresso)}
+.preview small{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 20px;font-size:15px;margin-bottom:14px}
+.kv span:nth-child(odd){color:var(--muted)}
+.phone-card{display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+.qr{width:132px;height:132px;padding:8px;border:1px solid var(--line);border-radius:var(--r-ctl);background:#fff}
+.addr{font-weight:600;font-size:18px;margin:4px 0}
+.protomark{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted)}
+.pnote{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--muted);margin-top:14px}
+.pnote i{width:8px;height:8px;margin-top:7px;border-radius:3px;border:1.5px solid var(--champagne);display:inline-block;flex:none}
+.protomark i{width:8px;height:8px;border-radius:3px;border:1.5px solid var(--champagne);display:inline-block}
+@media(min-width:960px){.sect{padding:24px 28px}}
+
+/* ---------- modal / sheet ---------- */
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(43,36,32,.42);display:flex;align-items:flex-end;justify-content:center}
+.modal{width:100%;max-height:92vh;max-height:92dvh;background:var(--surface);border-radius:var(--r-sheet) var(--r-sheet) 0 0;box-shadow:0 -8px 40px rgba(43,36,32,.18);display:flex;flex-direction:column;animation:sheet .22s ease-out}
+.modal:focus{outline:none}
+@keyframes sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.mh{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px 12px}
+.mh h2{font-size:18px;font-weight:600;line-height:1.3}
+.mx{width:44px;height:44px;margin:-4px -8px -4px 0;border:0;background:none;border-radius:var(--r-ctl);font-size:26px;line-height:1;cursor:pointer;color:var(--muted)}
+@media(hover:hover){.mx:hover{background:var(--champagne-soft)}}
+.mb{padding:4px 20px 16px;overflow-y:auto;flex:1}
+.mf{display:flex;gap:10px;justify-content:flex-end;padding:14px 20px calc(14px + env(safe-area-inset-bottom));border-top:1px solid var(--line);flex-wrap:wrap}
+.mf .btn{flex:1 1 120px}
+.mf:empty{display:none}
+@media(min-width:600px){
+  .overlay{align-items:center;padding:16px}
+  .modal{width:560px;max-width:100%;max-height:calc(100vh - 32px);max-height:calc(100dvh - 32px);border-radius:var(--r-sheet);box-shadow:0 12px 40px rgba(43,36,32,.18)}
+  .modal.book{width:720px}
+  .mf .btn{flex:0 0 auto}
+}
+@media(min-width:960px){
+  .modal.book{width:min(1080px,100%)}
+  .bk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr;grid-template-areas:"b a" "b c";gap:0 32px;align-items:start}
+  .bk-a{grid-area:a}.bk-b{grid-area:b}.bk-c{grid-area:c}
+  .bk .sum4{grid-template-columns:1fr 1fr}
+  .bk .sugs{margin-bottom:12px}
+}
+.sum4{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;padding:14px;border-radius:var(--r-ctl);background:var(--porcelain);margin-bottom:16px}
+.sum4 small{display:block;font-size:13px;color:var(--muted)}
+.sum4 b{font-size:15px;font-weight:600;line-height:1.35}
+.sum4 em{display:block;font-style:normal;font-size:13px;color:var(--late);font-weight:600}
+@media(min-width:960px){.sum4{grid-template-columns:1.3fr 1fr 1fr 1.2fr}}
+.callout{padding:10px 14px;border-radius:var(--r-ctl);background:var(--champagne-soft);font-size:14px;margin-bottom:16px;border-left:3px solid var(--champagne)}
+.sugs{display:grid;gap:8px;margin:0 0 16px}
+.sug{display:grid;grid-template-columns:1fr auto;gap:0 12px;text-align:left;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r-ctl);background:var(--surface);cursor:pointer;min-height:56px;align-items:center}
+@media(hover:hover){.sug:hover{border-color:var(--champagne)}}
+.sug.on{border-color:var(--bronze);background:var(--champagne-soft);box-shadow:inset 0 0 0 1px var(--bronze)}
+.sug .rec{grid-column:1/-1;font-size:13px;font-weight:600;color:var(--bronze);line-height:1.3}
+.sug b{font-size:15px;font-weight:600}
+.sug .d{font-size:13px;color:var(--muted);grid-column:1}
+.sug .lt{font-size:13px;color:var(--muted);grid-column:2;grid-row:2;text-align:right}
+@media(min-width:960px){.sugs{grid-template-columns:repeat(3,1fr)}.sug{grid-template-columns:1fr;gap:2px;padding:12px 14px}.sug .lt{grid-column:1;grid-row:auto;text-align:left}}
+.heat{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.heat .wd{font-size:13px;color:var(--muted);text-align:center;padding:2px 0}
+.hd{position:relative;height:50px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:14px;font-weight:600;line-height:1.25;border:0;background:var(--ld-g);color:var(--espresso);cursor:pointer;padding:0}
+.hd .ct{font-size:13px;font-weight:500;color:#4A413B}
+.hd.y{background:var(--ld-y)}.hd.o{background:var(--ld-o)}.hd.r{background:var(--ld-r)}
+.hd.sun{background:repeating-linear-gradient(135deg,var(--porcelain),var(--porcelain) 4px,#ECEAE6 4px,#ECEAE6 5px);color:var(--muted);font-weight:500}
+.hd.out{opacity:.55}
+.hd.past{opacity:.5;font-weight:500}
+.hd.dis{cursor:default}
+.hd.ring{box-shadow:inset 0 0 0 2px var(--bronze)}
+.hd.sel{background:var(--bronze);color:#fff;box-shadow:none}.hd.sel .ct{color:#fff}
+.hlegend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
+.hlegend span{display:inline-flex;align-items:center;gap:6px}
+.hlegend i{width:12px;height:12px;border-radius:3px;display:inline-block;border:1px solid rgba(43,36,32,.16)}
+.tchips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.tchip{min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:var(--r-ctl);background:var(--surface);font-weight:600;cursor:pointer;font-size:14px}
+@media(hover:hover){.tchip:hover{border-color:var(--champagne)}}
+.tchip.on{background:var(--bronze);border-color:var(--bronze);color:#fff}
+.summ{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;font-size:15px}
+.summ span:nth-child(odd){color:var(--muted)}
+.radio{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.radio:first-of-type{border-top:0}
+.radio input{flex:none;width:20px;min-height:20px;height:20px;margin:2px 0 0;accent-color:var(--bronze)}
+.radio b{display:block;font-size:15px}.radio span{font-size:14px;color:var(--muted)}
+
+/* ---------- toast ---------- */
+#toast{position:fixed;left:50%;bottom:calc(80px + env(safe-area-inset-bottom));transform:translate(-50%,16px);z-index:80;opacity:0;visibility:hidden;pointer-events:none;background:var(--espresso);color:#fff;padding:12px 16px;border-radius:var(--r-ctl);font-size:14px;display:flex;gap:16px;align-items:center;width:max-content;max-width:calc(100vw - 32px);box-shadow:0 8px 28px rgba(43,36,32,.25);transition:opacity .2s,transform .2s,visibility 0s .2s}
+#toast.show{opacity:1;visibility:visible;transform:translate(-50%,0);pointer-events:auto;transition:opacity .2s,transform .2s}
+#toast .tundo{background:none;border:0;color:#E8D7C3;font-weight:700;cursor:pointer;font-size:14px;padding:4px 8px;border-radius:6px;min-height:36px;white-space:nowrap}
+@media(min-width:960px){#toast{bottom:32px}}
+
+/* ---------- touch targets (phones, tablets, any coarse pointer): 44px ---------- */
+@media(max-width:959px),(pointer:coarse){
+  .btn,.btn.sm,.btn.ic{min-height:44px}.btn.ic{width:44px}
+  .fchip,.tchip,.seg button,.hints button,.tabs button{min-height:44px}
+  .afi,.afgrid .afi{min-height:44px}
+  .fc button{width:36px;height:36px}
+  .back,.facts .lnk{min-height:44px;display:inline-flex;align-items:center}
+  .fb{width:36px;height:36px}.hb{min-height:44px}
+  .mg .more{min-height:32px}
+}
+
+/* ---------- login ---------- */
+.login{min-height:100vh;display:flex;flex-direction:column;background:var(--surface)}
+.login .brandp{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:36px 24px 8px}
+.login .brandp img{width:150px;height:auto}
+.login .brandp .dark{display:none}
+.login .arc{margin-top:10px;width:220px;height:30px}
+.login .formp{display:flex;flex-direction:column;align-items:center;padding:8px 24px 32px}
+.login h1{font-family:var(--serif);font-weight:400;font-size:24px;text-align:center;margin-top:12px}
+.login .lead{color:var(--muted);font-size:15px;margin:6px 0 24px;text-align:center}
+.dots{display:flex;gap:16px;margin-bottom:24px}
+.dots i{width:14px;height:14px;border-radius:5px;border:2px solid var(--champagne);background:transparent}
+.dots i.on{background:var(--bronze);border-color:var(--bronze)}
+.keys{display:grid;grid-template-columns:repeat(3,72px);gap:12px;justify-content:center}
+.keys button{height:60px;border-radius:12px;border:1px solid var(--line);background:var(--surface);font-size:22px;font-weight:500;cursor:pointer}
+@media(hover:hover){.keys button:hover{background:var(--champagne-soft);border-color:var(--champagne)}}
+.keys button.gh{border-color:transparent;background:none;font-size:18px;color:var(--muted)}
+.login small.hintx{display:block;margin-top:22px;color:var(--muted);font-size:14px;text-align:center}
+@media(min-width:960px){
+  .login{flex-direction:row}
+  .login .brandp{flex:0 0 46%;background:var(--espresso);padding:48px}
+  .login .brandp .light{display:none}.login .brandp .dark{display:block}
+  .login .brandp img{width:260px}
+  .login .arc{width:300px;height:36px;margin-top:20px}
+  .login .brandp p{color:#BDB3A9;font-size:15px;margin-top:18px}
+  .login .formp{flex:1;justify-content:center;background:var(--porcelain)}
+  .login h1{font-size:28px;margin-top:0}
+}
+.login .brandp p{display:none}
+@media(min-width:960px){.login .brandp p{display:block}}
+
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="modal-root"></div>
+<div id="pop-root"></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+/* ---------- date helpers (real current date) ---------- */
+const pad2=n=>String(n).padStart(2,'0');
+const _now=new Date();
+const TODAY=`${_now.getFullYear()}-${pad2(_now.getMonth()+1)}-${pad2(_now.getDate())}`;
+const MON=['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+const DOWS=['Min','Sen','Sel','Rab','Kam','Jum','Sab'];
+const ID_MON=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const ID_DOW=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+const P=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(Date.UTC(y,m-1,d))};
+const ISO=d=>d.toISOString().slice(0,10);
+const addDays=(s,n)=>{const d=P(s);d.setUTCDate(d.getUTCDate()+n);return ISO(d)};
+const addMonths=(s,n)=>{const [y,m,d]=s.split('-').map(Number);const t=y*12+(m-1)+n,ny=Math.floor(t/12),nm=t%12;const last=new Date(Date.UTC(ny,nm+1,0)).getUTCDate();return ISO(new Date(Date.UTC(ny,nm,Math.min(d,last))))};
+const addInterval=(s,v,u)=>u==='week'?addDays(s,7*v):addMonths(s,v);
+const diff=(a,b)=>Math.round((P(a)-P(b))/864e5);
+const dow=s=>P(s).getUTCDay();
+const fmtId=s=>{const d=P(s);return `${ID_DOW[d.getUTCDay()]}, ${d.getUTCDate()} ${ID_MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`};
+const fmt=s=>{const d=P(s);return `${DOWS[d.getUTCDay()]}, ${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`};
+const fmtDM=s=>{const d=P(s);return `${DOWS[d.getUTCDay()]}, ${d.getUTCDate()} ${MON[d.getUTCMonth()]}`};
+const fmtS=s=>{const d=P(s);return `${d.getUTCDate()} ${MON[d.getUTCMonth()]}`};
+const fmtSY=s=>{const d=P(s);return `${d.getUTCDate()} ${MON[d.getUTCMonth()]} ${d.getUTCFullYear()}`};
+const unitId=(v,u)=>u==='week'?'minggu':'bulan';
+const ivTxt=(v,u)=>`Setiap ${v} ${unitId(v,u)}`;
+const ivShort=(v,u)=>`${v} ${unitId(v,u)}`;
+const nextOpen=s=>{let d=addDays(s,1);while(dow(d)===0)d=addDays(d,1);return d};
+const noSun=s=>dow(s)===0?addDays(s,1):s;
+const weekStart=s=>addDays(s,-((dow(s)+6)%7));
+const T=n=>addDays(TODAY,n);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- reference data ---------- */
+const KIND={kontrol:'Kontrol',cabut:'Pencabutan',odon:'Odontektomi',hecting:'Up hecting'};
+const KMIN={cabut:30,odon:60,hecting:20};
+const defTypes=()=>[
+ {id:'kmetal',name:'Konvensional Metal',v:4,u:'week',min:30},
+ {id:'kclear',name:'Konvensional Clear',v:4,u:'week',min:30},
+ {id:'dultima',name:'Damon Ultima Metal',v:6,u:'week',min:30,range:'Rentang 6 sampai 8 minggu'},
+ {id:'dq2m',name:'Damon Q2 Metal',v:6,u:'week',min:30,range:'Rentang 6 sampai 8 minggu'},
+ {id:'dq2c',name:'Damon Q2 Clear',v:6,u:'week',min:30,range:'Rentang 6 sampai 8 minggu'},
+ {id:'ndm',name:'Non Damon Metal',v:6,u:'week',min:30,range:'Rentang 6 sampai 8 minggu'},
+ {id:'ndc',name:'Non Damon Clear',v:6,u:'week',min:30,range:'Rentang 6 sampai 8 minggu'},
+ {id:'rem',name:'Removable Appliance',v:2,u:'week',min:20},
+ {id:'ret',name:'Retainer',v:6,u:'month',min:20,range:'Rentang 6 sampai 12 bulan, status pasien menjadi Retensi'}];
+const TINDAKAN=[
+ {k:'cabut',name:'Pencabutan',note:'Sekali datang, tidak ada recall'},
+ {k:'odon',name:'Odontektomi',note:'Otomatis menyarankan kunjungan Up hecting setelah selesai'},
+ {k:'hecting',name:'Up hecting',note:'Sekali datang, tidak ada recall'}];
+const PST={konsultasi:['Konsultasi','c-bronze'],aktif:['Aktif','c-done'],retensi:['Retensi','c-sched'],selesai:['Selesai','c-muted'],batal:['Batal','c-late'],tidaklanjut:['Tidak lanjut','c-muted']};
+const AST={scheduled:['Terjadwal','c-sched'],done:['Selesai','c-done'],missed:['Tidak datang','c-late'],cancelled:['Dibatalkan','c-muted']};
+const chip=(c,t)=>`<span class="chip ${c}">${t}</span>`;
+const pChip=p=>chip(PST[p.status][1]+' pst',PST[p.status][0]);
+const aChip=a=>chip(AST[a.status][1],AST[a.status][0]);
+const DEF_TPL='Halo {nama}, ini pengingat jadwal kontrol behel Anda di {klinik} pada {tanggal} pukul {jam}. Mohon konfirmasi kehadiran. Terima kasih.';
+const DEF_CALL='Halo {nama}, sudah waktunya kontrol behel Anda di {klinik} (jatuh tempo {tanggal}). Silakan balas pesan ini untuk mengatur jadwal kunjungan. Terima kasih.';
+const DEF_FU='Halo {nama}, terima kasih sudah berkonsultasi di {klinik}. Apakah ada yang ingin ditanyakan atau mau dijadwalkan untuk mulai perawatan? Kami siap membantu.';
+const CLINIC='Milda Orthodontic Specialist';
+const FU_DAYS=14,FU_MAX=3;
+
+let TYPES=defTypes(),patients=[],guests=[],appts=[],apptN=1;
+let S={clinic:CLINIC,template:DEF_TPL,callTemplate:DEF_CALL,fuTemplate:DEF_FU,hectingWeeks:1,rules:{days:[1,2,3,4,5,6],from:'09:00',to:'17:00',max:12,window:7,near:75},
+  recallTab:'due',pq:'',fStatus:null,fTx:null,sort:{k:'name',d:1},af:null,calMode:'week',calWeek:weekStart(TODAY),calMonth:TODAY.slice(0,8)+'01',calOpen:{}};
+const tx=id=>TYPES.find(t=>t.id===id);
+const hhmm=t=>pad2(Math.floor(t/60))+':'+pad2(t%60);
+function slotList(){const [h1,m1]=S.rules.from.split(':').map(Number),[h2,m2]=S.rules.to.split(':').map(Number),o=[];for(let t=h1*60+m1;t<h2*60+m2;t+=30){if(t>=720&&t<780)continue;o.push(hhmm(t))}return o}
+const ORDER=['09:00','09:30','11:00','13:00','14:00','15:00','11:30','13:30','16:00','14:30','15:30','10:30','16:30','10:00'];
+/* closed days (from Pengaturan) are skipped: next working day on or after s */
+const openDay=s=>{const d=S.rules.days;if(!d.length)return s;while(!d.includes(dow(s)))s=addDays(s,1);return s};
+
+/* ---------- dummy data, relative to the real current date ---------- */
+const SPEC=[
+ {n:'Siti Rahmawati',ph:'0812-3456-7801',tx:'dultima',st:'aktif',slot:'10:00',cnt:5,last:-42,step:42,today:['10:00','scheduled']},
+ {n:'Budi Santoso',ph:'0813-2211-4590',tx:'kmetal',st:'aktif',slot:'09:00',cnt:5,last:-28,step:28,today:['09:00','done'],fut:[28]},
+ {n:'Dewi Lestari',ph:'0857-1020-3344',tx:'rem',st:'aktif',slot:'11:00',cnt:7,last:-14,step:14,today:['11:00','scheduled']},
+ {n:'Andi Pratama',ph:'0821-7788-1200',tx:'ret',st:'retensi',slot:'13:00',cnt:4,last:-190,step:182,today:['13:00','missed']},
+ {n:'Putri Ayu',ph:'0878-4455-6672',tx:'dq2c',st:'aktif',slot:'15:00',cnt:4,last:-42,step:42,today:['15:00','scheduled']},
+ {n:'Rizky Ramadhan',ph:'0812-9090-1177',tx:'kclear',st:'aktif',slot:'09:30',cnt:6,last:-28,step:28,today:['09:30','done'],fut:[27]},
+ {n:'Nadia Kusuma',ph:'0813-5566-2009',tx:'ndm',st:'aktif',slot:'14:00',cnt:5,last:-37,step:42},
+ {n:'Fajar Nugroho',ph:'0857-3300-8841',tx:'dq2m',st:'aktif',slot:'08:30',cnt:5,last:-50,step:50,miss:[-92],ivx:[[-148,8,'week','Diperpanjang ke 8 minggu setelah ganti kawat']]},
+ {n:'Hana Puspita',ph:'0821-6612-3478',tx:'rem',st:'aktif',slot:'16:00',cnt:4,last:-17,step:14,miss:[-10]},
+ {n:'Yoga Prasetyo',ph:'0812-7001-5523',tx:'kmetal',st:'aktif',slot:'10:30',cnt:6,last:-37,step:30,miss:[-3]},
+ {n:'Maya Anggraini',ph:'0878-9234-1160',tx:'ndc',st:'aktif',slot:'13:30',cnt:4,last:-58,step:44,miss:[-16,-100]},
+ {n:'Dimas Aditya',ph:'0813-4400-2918',tx:'ret',st:'retensi',slot:'11:30',cnt:3,last:-150,step:182},
+ {n:'Citra Wulandari',ph:'0857-2121-9087',tx:'dq2m',st:'aktif',slot:'14:30',cnt:8,last:-20,step:42,miss:[-125],fut:[22]},
+ {n:'Eko Wijaya',ph:'0812-6677-0402',tx:'kmetal',st:'aktif',slot:'14:00',cnt:7,last:-26,step:28,fut:[2]},
+ {n:'Rina Oktaviani',ph:'0821-3345-0099',tx:'kclear',st:'selesai',slot:'10:00',cnt:10,last:-150,step:28},
+ {n:'Bagas Wicaksono',ph:'0813-8812-6650',tx:'kmetal',st:'aktif',slot:'09:30',cnt:4,last:-12,step:28,fut:[16],extra:[{off:-3,kind:'odon',status:'done',time:'11:00'}]},
+ {n:'Fitri Handayani',ph:'0878-5050-1212',tx:'ndc',st:'aktif',slot:'11:30',cnt:3,last:-20,step:42,today:['14:00','scheduled','odon']},
+ {n:'Tania Oktaviani',ph:'0812-8854-2096',tx:'kmetal',st:'aktif',slot:'16:00',cnt:3,last:-20,step:28,today:['16:00','scheduled','cabut']},
+ {n:'Bella Safira',ph:'0821-4409-7765',tx:'dq2c',st:'konsultasi',consult:{off:-25,c:[-11]}},
+ {n:'Kirana Putri',ph:'0857-6631-4412',tx:null,st:'konsultasi',consult:{off:-14,c:[]}},
+ {n:'Ferry Hidayat',ph:'0812-1010-7733',tx:'kmetal',st:'konsultasi',consult:{off:-45,c:[-31,-17]}},
+ {n:'Mutiara Sari',ph:'0813-9087-3321',tx:null,st:'konsultasi',consult:{off:-60,c:[-46,-32,-18]}},
+ {n:'Joko Susilo',ph:'0812-7788-4521',tx:'kmetal',st:'batal',slot:'09:00',cnt:4,last:-90,step:28},
+ {n:'Sinta Maharani',ph:'0878-3321-9904',tx:'dq2c',st:'batal',slot:'13:00',cnt:3,last:-120,step:42},
+ {n:'Rendra Kusuma',ph:'0821-9012-6677',tx:null,st:'tidaklanjut',consult:{off:-80,c:[-66,-52,-38]}}];
+function seed(){
+  patients=[];guests=[];appts=[];apptN=1;TYPES=defTypes();
+  const D=n=>noSun(T(n));
+  const add=(pid,date,time,status,kind)=>appts.push({id:'a'+apptN++,pid,date,time,status,kind:kind||'kontrol'});
+  SPEC.forEach((s,i)=>{
+    const id='p'+(i+1);
+    const p={id,name:s.n,phone:s.ph,tx:s.tx,status:s.st,slot:s.slot||'10:00',iv:[],start:null,consult:null};
+    if(s.consult){p.consult={date:openDay(T(s.consult.off)),contacts:s.consult.c.map(o=>openDay(T(o)))};p.start=p.consult.date}
+    if(s.cnt){
+      const offs=[];for(let k=0;k<s.cnt;k++)offs.push(s.last-k*s.step-(k?((k*5)%3-1):0));
+      offs.forEach(o=>add(id,D(o),p.slot,'done'));
+      p.start=D(offs[offs.length-1]);
+      const t=tx(s.tx);p.iv.push({date:p.start,v:t.v,u:t.u,note:'Disepakati saat konsultasi'});
+      (s.ivx||[]).forEach(x=>p.iv.push({date:D(x[0]),v:x[1],u:x[2],note:x[3]}));
+    }
+    (s.miss||[]).forEach(o=>add(id,D(o),p.slot,'missed'));
+    (s.fut||[]).forEach(o=>add(id,D(o),p.slot,'scheduled'));
+    (s.extra||[]).forEach(x=>add(id,D(x.off),x.time,x.status,x.kind));
+    if(s.today&&dow(TODAY)!==0)add(id,TODAY,s.today[0],s.today[1],s.today[2]);
+    patients.push(p);
+  });
+  /* other clinic patients (not in Pasien list): real appointments so every calendar day has a proper list */
+  const FN=['Rahmat','Sinta','Bagas','Dian','Fenny','Gilang','Hesti','Irfan','Jasmine','Kurnia','Laras','Maulana','Nurul','Okta','Putra','Qonita','Rizal','Salsa','Taufik','Utami','Vina','Wahyu','Yusuf','Zahra'];
+  const LN=['Hidayat','Permana','Saputra','Utomo','Wibowo','Lestari','Nugraha','Pratiwi','Setiawan','Kurniawan','Fauzi','Rahayu','Halim'];
+  guests=Array.from({length:72},(_,i)=>{const t=TYPES[i%8];return {id:'g'+(i+1),name:FN[i%24]+' '+LN[(i*5+(i/24|0)*3)%13],phone:'0812-'+pad2(30+i)+'00-'+String(1000+i*37).slice(-4),tx:t.id,status:'aktif',slot:'10:00',guest:true,
+    iv:[{date:T(-120),v:t.v,u:t.u,note:'Disepakati saat konsultasi'}],start:T(-120),consult:null}});
+  const sl=slotList(),order=ORDER.filter(t=>sl.includes(t)).concat(sl.filter(t=>!ORDER.includes(t)));let gi=0,busy=0;
+  for(let o=-45;o<=75;o++){const d=T(o);if(dow(d)===0||d===TODAY)continue;
+    const h=[...d].reduce((a,c)=>(a*31+c.charCodeAt(0))>>>0,7),w=dow(d),real=appts.filter(a=>a.date===d);
+    let want=w===6?1+h%4:2+h%7;if(h%11===0)want=++busy%3===0?12:9+h%3;
+    const used=new Set();real.forEach(a=>{if(a.time){used.add(a.time);if(apptMin(a)>30)used.add(hhmm(+a.time.slice(0,2)*60+ +a.time.slice(3)+30))}});
+    order.filter(t=>!used.has(t)).slice(0,Math.max(0,want-real.length)).forEach((t,k)=>{
+      add(guests[gi++%guests.length].id,d,t,o<0?((h+k)%9===0?'missed':'done'):'scheduled',(h+k)%13===0?'cabut':'kontrol')})}
+}
+
+/* ---------- persistence ---------- */
+const LSK='milda-prototype-v3';
+function save(){try{localStorage.setItem(LSK,JSON.stringify({day:TODAY,patients,guests,appts,apptN,TYPES,cfg:{clinic:S.clinic,template:S.template,callTemplate:S.callTemplate,fuTemplate:S.fuTemplate,hectingWeeks:S.hectingWeeks,rules:S.rules}}))}catch(e){}}
+function load0(){
+  try{const raw=localStorage.getItem(LSK);if(raw){const d=JSON.parse(raw);
+    if(d&&d.day===TODAY&&d.patients&&d.appts&&d.guests){patients=d.patients;guests=d.guests;appts=d.appts;apptN=d.apptN;TYPES=d.TYPES;Object.assign(S,d.cfg);if(!S.callTemplate)S.callTemplate=DEF_CALL;return}}}catch(e){}
+  seed();
+}
+function resetData(){try{localStorage.removeItem(LSK)}catch(e){}
+  S.clinic=CLINIC;S.template=DEF_TPL;S.callTemplate=DEF_CALL;S.fuTemplate=DEF_FU;S.hectingWeeks=1;S.rules={days:[1,2,3,4,5,6],from:'09:00',to:'17:00',max:12,window:7,near:75};
+  seed();save()}
+
+/* ---------- domain rules ---------- */
+const load=d=>appts.filter(a=>a.date===d&&a.status!=='cancelled').length;
+const loadCls=f=>f<.5?'g':f<.75?'y':f<1?'o':'r';
+const LOADS=[['g','Longgar'],['y','Cukup padat'],['o','Hampir penuh'],['r','Penuh']];
+const loadLegend=note=>`<div class="hlegend" data-testid="load-legend">${LOADS.map(([k,l])=>`<span><i style="background:var(--ld-${k})"></i>${l}</span>`).join('')}${note?`<span>${note}</span>`:''}</div>`;
+const bookedTimes=d=>new Set(appts.filter(a=>a.date===d&&a.time&&a.status!=='cancelled').map(a=>a.time));
+const freeTimes=d=>{const b=bookedTimes(d);return slotList().filter(t=>!b.has(t))};
+const pat=id=>patients.find(p=>p.id===id)||guests.find(p=>p.id===id);
+const curIv=p=>{let best=null;p.iv.forEach(r=>{if(!best||r.date>=best.date)best=r});return best};
+const pApps=id=>appts.filter(a=>a.pid===id);
+const isAct=p=>p.status==='aktif'||p.status==='retensi';
+const lastDone=p=>pApps(p.id).filter(a=>a.status==='done'&&a.kind==='kontrol').map(a=>a.date).sort().pop()||null;
+const baseDate=p=>lastDone(p)||p.start;
+const dueDate=p=>{const i=curIv(p);return i?addInterval(baseDate(p),i.v,i.u):null};
+const byTime=(a,b)=>(a.date+(a.time||'99:99')).localeCompare(b.date+(b.time||'99:99'));
+const nextAppt=p=>pApps(p.id).filter(a=>a.status==='scheduled'&&a.date>=TODAY).sort(byTime)[0]||null;
+const nextControl=p=>pApps(p.id).filter(a=>a.status==='scheduled'&&a.kind==='kontrol'&&a.date>=TODAY).sort(byTime)[0]||null;
+const missedCount=p=>pApps(p.id).filter(a=>a.status==='missed'&&a.kind==='kontrol').length;
+const apptMin=a=>a.kind==='kontrol'?(tx(pat(a.pid).tx)||{min:30}).min:KMIN[a.kind];
+function pendingHecting(p){
+  const od=pApps(p.id).filter(a=>a.kind==='odon'&&a.status==='done').sort(byTime).pop();
+  if(!od)return null;
+  if(pApps(p.id).some(a=>a.kind==='hecting'&&a.status!=='cancelled'&&a.date>=od.date))return null;
+  return {k:'hecting',p,due:addDays(od.date,7*S.hectingWeeks),odon:od};
+}
+const fuCount=p=>p.consult?p.consult.contacts.length:0;
+const fuDue=p=>{const c=p.consult;const last=c.contacts.length?c.contacts[c.contacts.length-1]:c.date;return openDay(addDays(last,FU_DAYS))};
+function recall(){
+  const kon=patients.filter(p=>isAct(p)&&!nextControl(p)&&curIv(p)).map(p=>({k:'kontrol',p,due:dueDate(p)}));
+  const hec=patients.filter(isAct).map(pendingHecting).filter(Boolean);
+  const all=kon.concat(hec).sort((a,b)=>a.due.localeCompare(b.due));
+  const week=all.filter(r=>r.due>=TODAY&&r.due<=addDays(TODAY,7));
+  const over=all.filter(r=>r.due<TODAY);
+  const fu=patients.filter(p=>p.status==='konsultasi'&&p.consult).map(p=>({k:'fu',p,due:fuDue(p)})).filter(r=>r.due<=addDays(TODAY,7)||fuCount(r.p)>=FU_MAX).sort((a,b)=>a.due.localeCompare(b.due));
+  const none=all.filter(r=>r.due>addDays(TODAY,7));
+  return {week,over,none,fu};
+}
+const normPhone=s=>{let d=s.replace(/[\s-]/g,'');if(d.startsWith('+'))d=d.slice(1);if(d.startsWith('0'))d='62'+d.slice(1);return d};
+const fillTpl=(tpl,p,date,time)=>{if(!time)tpl=tpl.replace(/\s*(pukul|pada jam|jam|pk\.?)\s*\{jam\}/gi,'').replace(/\s*\{jam\}/g,'').replace(/\s+([.,;!?])/g,'$1');
+  return tpl.replace(/\{nama\}/g,p.name).replace(/\{klinik\}/g,S.clinic).replace(/\{tanggal\}/g,date?fmtId(date):'').replace(/\{jam\}/g,time||'')};
+const waHref=(p,msg)=>`https://wa.me/${normPhone(p.phone)}?text=${encodeURIComponent(msg)}`;
+/* which WhatsApp template applies: upcoming visit -> reminder with its real date/time; none -> ajakan kontrol with due date; konsultasi -> follow-up */
+const WAT={reminder:'Pengingat jadwal kontrol',call:'Ajakan kontrol',fu:'Follow-up konsultasi'};
+function waPlan(p,kind){
+  if(kind==='fu')return {t:'fu',text:fillTpl(S.fuTemplate,p)};
+  const a=nextAppt(p);
+  if(a)return {t:'reminder',text:fillTpl(S.template,p,a.date,a.time)};
+  const ph=pendingHecting(p),due=(ph&&ph.due)||dueDate(p)||TODAY;
+  return {t:'call',text:fillTpl(S.callTemplate,p,due)};
+}
+const dispPhone=p=>{const n=normPhone(p).replace(/^62/,'');return '+62 '+n.replace(/^(\d{3})(\d{4})(\d+)$/,'$1 $2 $3')};
+const waBtn=(p,kind,tid,sm)=>`<button class="btn wa ${sm?'sm':''}" data-act="wa" data-id="${p.id}" data-kind="${kind}" data-testid="${tid}">${ic('chat')}WhatsApp</button>`;
+function dueState(due){
+  const d=diff(due,TODAY);
+  if(d<0)return{cls:'st-late',text:`Terlambat ${-d} hari`};
+  if(d===0)return{cls:'st-soon',text:'Jatuh tempo hari ini'};
+  return{cls:d<=7?'st-soon':'',text:`Dalam ${d} hari`};
+}
+
+load0();
+
+/* ---------- icons ---------- */
+const IC={
+ today:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/>',
+ recall:'<path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/>',
+ calendar:'<path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/>',
+ patients:'<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+ settings:'<line x1="21" x2="14" y1="4" y2="4"/><line x1="10" x2="3" y1="4" y2="4"/><line x1="21" x2="12" y1="12" y2="12"/><line x1="8" x2="3" y1="12" y2="12"/><line x1="21" x2="16" y1="20" y2="20"/><line x1="12" x2="3" y1="20" y2="20"/><line x1="14" x2="14" y1="2" y2="6"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="16" x2="16" y1="18" y2="22"/>',
+ search:'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+ check:'<path d="M20 6 9 17l-5-5"/>',
+ chat:'<path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>',
+ plus:'<path d="M5 12h14"/><path d="M12 5v14"/>',
+ back:'<path d="m15 18-6-6 6-6"/>',prev:'<path d="m15 18-6-6 6-6"/>',next:'<path d="m9 18 6-6-6-6"/>',
+ filter:'<path d="M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z"/>',
+ up:'<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',down:'<path d="M12 5v14"/><path d="m19 12-7 7-7-7"/>',
+ down2:'<path d="m6 9 6 6 6-6"/>',
+ lock:'<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>'};
+const ic=n=>`<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${IC[n]}</svg>`;
+const initials=n=>n.split(' ').map(w=>w[0]).slice(0,2).join('');
+const loadChip=d=>{const n=load(d);return n?`<span class="ld ${loadCls(n/S.rules.max)}">${n}/${S.rules.max}</span>`:''};
+
+/* WIRE:BEGIN */
+/* Archwire timeline. items: [{k:'done'|'missed'|'next'|'due', label, sub?}], W = pixel width */
+function wireSvg(items,W,spx){
+  const n=items.length,padL=40,H=164,x0=8,x1=W-8,yL=104,yM=104,yR=38;
+  const yAt=x=>{const t=(x-x0)/(x1-x0);return (1-t)*(1-t)*yL+2*t*(1-t)*yM+t*t*yR};
+  const slope=x=>{const t=(x-x0)/(x1-x0);return (2*(1-t)*(yM-yL)+2*t*(yR-yM))/(x1-x0)};
+  const sp=spx||(n>1?Math.min(240,(W-padL-60)/(n-1)):0),SLOT='<path d="M-14 0H14" stroke="#C9C9C9" stroke-width="3" stroke-linecap="round"/>';
+  let g='';
+  items.forEach((it,i)=>{
+    const x=padL+i*sp,y=yAt(x),ang=Math.atan(slope(x))*180/Math.PI;
+    const tf=`translate(${x.toFixed(1)} ${y.toFixed(1)}) rotate(${ang.toFixed(1)})`;
+    let r='';
+    if(it.k==='done')r=`<rect x="-10" y="-10" width="20" height="20" rx="5" fill="#7A5C3A"/>${SLOT}`;
+    else if(it.k==='missed')r=`<rect x="-9" y="-9" width="18" height="18" rx="5" fill="#fff" stroke="#9C3F2A" stroke-width="2.2"/>${SLOT}`;
+    else if(it.k==='next')r=`<rect x="-10" y="-10" width="20" height="20" rx="5" fill="#fff" stroke="#B89878" stroke-width="2.5"/>${SLOT}`;
+    else r=`<rect x="-10" y="-10" width="20" height="20" rx="5" fill="#fff" stroke="#B89878" stroke-width="2.2" stroke-dasharray="4 3.5"/>${SLOT}`;
+    const cls=it.k==='next'?'hl':it.k==='missed'?'bad':it.k==='due'?'due':'';
+    const ly=y+36;
+    g+=`<g transform="${tf}">${r}</g>`;
+    if(it.sub)g+=`<text x="${x.toFixed(1)}" y="${(ly).toFixed(1)}" text-anchor="middle" class="${cls}">${it.sub}</text><text x="${x.toFixed(1)}" y="${(ly+17).toFixed(1)}" text-anchor="middle" class="${cls}">${it.label}</text>`;
+    else g+=`<text x="${x.toFixed(1)}" y="${ly.toFixed(1)}" text-anchor="middle" class="${cls}">${it.label}</text>`;
+  });
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Riwayat kunjungan kontrol"><path d="M${x0} ${yL} Q ${(W/2).toFixed(1)} ${yM} ${x1} ${yR}" fill="none" stroke="#C9C9C9" stroke-width="2" stroke-linecap="round"/>${g}</svg>`;
+}
+function wireLegend(){
+  const b=(t,fill,stroke,dash)=>`<svg viewBox="-12 -8 24 16" aria-hidden="true"><rect x="-6" y="-6" width="12" height="12" rx="3.5" fill="${fill}" ${stroke?`stroke="${stroke}" stroke-width="1.8"`:''} ${dash?'stroke-dasharray="3 2.5"':''}/><path d="M-11 0H11" stroke="#C9C9C9" stroke-width="2.4" stroke-linecap="round"/></svg>${t}`;
+  return `<div class="wlegend"><span>${b('Selesai','#7A5C3A')}</span><span>${b('Tidak datang','#fff','#9C3F2A')}</span><span>${b('Terjadwal','#fff','#B89878')}</span><span>${b('Jatuh tempo, belum dijadwalkan','#fff','#B89878',true)}</span></div>`;
+}
+/* WIRE:END */
+function patientWireItems(p){
+  const items=[];
+  pApps(p.id).filter(a=>a.kind==='kontrol'&&a.status!=='cancelled').sort(byTime).forEach(a=>{
+    if(a.status==='done')items.push({k:'done',label:fmtS(a.date)});
+    else if(a.status==='missed')items.push({k:'missed',label:fmtS(a.date)});
+    else if(a.date>=TODAY)items.push({k:'next',label:fmtS(a.date)});
+  });
+  if(isAct(p)&&!nextControl(p)&&curIv(p))items.push({k:'due',sub:'Jatuh tempo',label:fmtS(dueDate(p))});
+  return items;
+}
+function drawWires(){
+  document.querySelectorAll('[data-wire]').forEach(el=>{
+    const p=pat(el.dataset.wire);if(!p)return;
+    const items=patientWireItems(p),n=items.length,cw=el.clientWidth||600,SP=84;
+    if(n<2||40+(n-1)*SP+70<=cw){el.innerHTML=wireSvg(items,cw);return}
+    /* scrolls to the end, aligned so the first visible bracket (and its label) sits 24px from the left edge, never clipped */
+    const k=Math.ceil(((n-1)*SP+64-cw)/SP),W=cw+16+k*SP;
+    el.innerHTML=wireSvg(items,W,SP);el.scrollLeft=W-cw;
+  });
+}
+
+/* ---------- QR (static, plausible, not scannable) ---------- */
+function qrSvg(){
+  const N=29,g=Array.from({length:N},()=>Array(N).fill(0));let seed=20261020;
+  const rnd=()=>(seed=(seed*1103515245+12345)&0x7fffffff)/0x7fffffff;
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++)g[y][x]=rnd()>0.52?1:0;
+  const box=(x0,y0,w,h,v)=>{for(let y=y0;y<y0+h;y++)for(let x=x0;x<x0+w;x++)if(y>=0&&y<N&&x>=0&&x<N)g[y][x]=v};
+  const finder=(x0,y0)=>{box(x0-1,y0-1,9,9,0);box(x0,y0,7,7,1);box(x0+1,y0+1,5,5,0);box(x0+2,y0+2,3,3,1)};
+  finder(0,0);finder(N-7,0);finder(0,N-7);
+  for(let i=8;i<N-8;i++){g[6][i]=i%2?0:1;g[i][6]=i%2?0:1}
+  let d='';for(let y=0;y<N;y++)for(let x=0;x<N;x++)if(g[y][x])d+=`M${x} ${y}h1v1h-1z`;
+  return `<svg viewBox="-1 -1 ${N+2} ${N+2}" shape-rendering="crispEdges" role="img" aria-label="Kode QR contoh"><path d="${d}" fill="#2B2420"/></svg>`;
+}
+
+/* ---------- ui helpers ---------- */
+const $=s=>document.querySelector(s);
+let toastT;
+function toast(msg,undo){const t=$('#toast');t.innerHTML='';const sp=document.createElement('span');sp.textContent=msg;t.appendChild(sp);
+  if(undo){const u=document.createElement('button');u.className='tundo';u.textContent='Urungkan';u.setAttribute('data-testid','toast-undo');u.onclick=()=>{t.classList.remove('show');undo()};t.appendChild(u)}
+  t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),undo?7000:3200)}
+/* dialogs: focus moves in, background is inert, Tab wraps, focus returns to whatever opened it */
+let modalTrig=null;
+const FOCUSABLE='a[href],button:not([disabled]),input:not([disabled]):not([type=hidden]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])';
+function modal(title,body,foot,cls){
+  const root=$('#modal-root');
+  if(!root.firstChild){const ae=document.activeElement;modalTrig=ae&&ae!==document.body?{el:ae,tid:ae.dataset&&ae.dataset.testid}:null}
+  root.innerHTML=`<div class="overlay" data-act="bg"><div class="modal ${cls||''}" role="dialog" aria-modal="true" aria-labelledby="modal-title" tabindex="-1" data-testid="modal"><div class="mh"><h2 id="modal-title">${title}</h2><button class="mx" data-act="close" data-testid="modal-close" aria-label="Tutup">&times;</button></div><div class="mb" id="mb">${body}</div><div class="mf">${foot}</div></div></div>`;
+  $('#app').inert=true;document.body.classList.add('modal-open');
+  const m=root.querySelector('.modal');
+  const f=matchMedia('(hover:hover)').matches&&m.querySelector('#mb input[type=text],#mb input[type=password],#mb input:not([type]),#mb textarea');
+  (f||m).focus({preventScroll:true});
+}
+function closeModal(){
+  const root=$('#modal-root');if(!root.firstChild)return;
+  root.innerHTML='';$('#app').inert=false;document.body.classList.remove('modal-open');
+  const t=modalTrig;modalTrig=null;
+  if(t){let el=t.el;if(!el.isConnected&&t.tid)el=document.querySelector(`[data-testid="${t.tid}"]`);if(el&&el.isConnected)el.focus({preventScroll:true})}
+}
+function keepFocus(root,fn){
+  const ae=document.activeElement,tid=ae&&root.contains(ae)&&ae.dataset?ae.dataset.testid:null;
+  fn();
+  if(tid){const n=root.querySelector(`[data-testid="${tid}"]`);if(n)n.focus({preventScroll:true})}
+}
+const NAV=[['today','Hari ini'],['recall','Recall'],['calendar','Kalender'],['patients','Pasien'],['settings','Pengaturan']];
+const TITLES={today:'Hari ini',recall:'Recall',calendar:'Kalender',patients:'Pasien',settings:'Pengaturan'};
+const typeName=p=>p.tx?tx(p.tx).name:'Belum ditentukan';
+function leave(sel,cb){const el=document.querySelector(sel);if(el){el.classList.add('out');setTimeout(cb,260)}else cb()}
+
+/* ---------- views ---------- */
+const empty=(t,h,act)=>`<div class="empty"><b>${t}</b>${h?`<span>${h}</span>`:''}${act||''}</div>`;
+function viewToday(){
+  const list=appts.filter(a=>a.date===TODAY&&a.status!=='cancelled').sort(byTime);
+  const n=s=>list.filter(a=>a.status===s).length,tot=list.length;
+  const seg=(c,v)=>v?`<i style="flex:${v};background:var(${c})"></i>`:'';
+  const rows=list.map(a=>{
+    const p=pat(a.pid),i=curIv(p),min=apptMin(a),nx=nextAppt(p);
+    let act='',note='';
+    if(a.status==='scheduled')act=`<button class="btn primary" data-act="done" data-id="${a.id}" data-testid="done-${p.id}">${ic('check')}Tandai selesai</button><button class="btn bad" data-act="missed" data-id="${a.id}" data-testid="missed-${p.id}">Tidak datang</button>`;
+    else if(a.status==='done'){
+      if(a.kind==='kontrol'){const nc=nextControl(p);
+        if(nc)note=`<div class="note c-note">Berikutnya: ${fmtDM(nc.date)}, ${nc.time||'jam menyusul'}</div>`;
+        else act=`<button class="btn" data-act="book" data-id="${p.id}" data-testid="rebook-${p.id}">Buat jadwal</button>`}
+      else if(a.kind==='odon'&&pendingHecting(p))act=`<button class="btn" data-act="bookh" data-id="${p.id}" data-testid="rebook-${p.id}">Buat jadwal Up hecting</button>`;
+    }else if(a.status==='missed'&&isAct(p)&&!nextControl(p))act=`<button class="btn" data-act="book" data-id="${p.id}" data-testid="rebook-${p.id}">Buat jadwal ulang</button>`;
+    const kindChip=a.kind!=='kontrol'?chip('tag',KIND[a.kind]):'';
+    const typeTxt=p.tx?tx(p.tx).name:'';
+    return `<div class="lr tr is-${a.status}" data-testid="appt-${p.id}"><div class="c-time"><b>${a.time||'Jam menyusul'}</b><span class="sm muted">${min} mnt</span></div>
+     <div class="c-main"><a class="nm c-name" href="#patient/${p.id}">${esc(p.name)}</a><div class="sub meta c-sub"><span class="t-type">${typeTxt}</span>${i?`<span>${ivTxt(i.v,i.u)}</span>`:''}${kindChip?`<span class="kc">${kindChip}</span>`:''}</div>${note}</div>
+     <div class="c-type"><div>${typeTxt}</div>${kindChip?`<div class="kchip">${kindChip}</div>`:''}</div>
+     <div class="c-chip">${aChip(a)}</div><div class="c-act">${act}</div></div>`}).join('');
+  const sun=dow(TODAY)===0,nxt=nextOpen(TODAY);
+  return `<header class="ph"><h1 class="title only-d">Hari ini</h1><p class="sub">${fmtId(TODAY)}</p></header>
+  <div class="summary" data-testid="today-summary"><div><div class="big">${tot} kunjungan</div></div>
+   <div><div class="sbar">${seg('--done',n('done'))}${seg('--late',n('missed'))}${seg('--scheduled',n('scheduled'))}</div>
+   <div class="legend"><span class="lg"><i style="background:var(--done)"></i>Selesai ${n('done')}</span><span class="lg"><i style="background:var(--late)"></i>Tidak datang ${n('missed')}</span><span class="lg"><i style="background:var(--scheduled)"></i>Terjadwal ${n('scheduled')}</span></div></div></div>
+  <div class="ledger" data-testid="today-list">${rows||(sun?empty('Klinik tutup hari Minggu',`Kunjungan berikutnya dimulai ${fmtId(nxt)}.`):empty('Belum ada kunjungan hari ini','Jadwal baru dibuat dari Recall atau halaman pasien.'))}</div>`;
+}
+
+function recallRow(r){
+  const p=r.p,st=dueState(r.due),i=curIv(p);
+  const key=`${r.k}-${p.id}`;
+  if(r.k==='fu'){
+    const c=fuCount(p),maxed=c>=FU_MAX;
+    return `<div class="lr fr" data-row="${key}" data-testid="recall-row-${p.id}"><div class="c-main"><a class="nm" href="#patient/${p.id}">${esc(p.name)}</a><div class="sub meta"><span>Konsultasi ${fmtSY(p.consult.date)}</span><span>${p.tx?tx(p.tx).name:'Perawatan belum ditentukan'}</span></div></div>
+     <div class="c-due"><div class="nm">${fmtDM(r.due)}</div><div class="sub ${st.cls}">${st.text}</div><div class="sub" data-testid="fu-count-${p.id}">Dihubungi ${c} dari ${FU_MAX}</div></div>
+     <div class="c-act acts">${waBtn(p,'fu','wa-'+p.id,true)}${maxed?`<button class="btn sm quiet" data-act="fulost" data-id="${p.id}" data-testid="lost-${p.id}">Tandai tidak lanjut</button>`:`<button class="btn sm quiet" data-act="fucontact" data-id="${p.id}" data-testid="contacted-${p.id}">Sudah dihubungi</button>`}<button class="btn sm start" data-act="start" data-id="${p.id}" data-testid="start-${p.id}">Mulai perawatan</button></div></div>`;
+  }
+  const hec=r.k==='hecting';
+  return `<div class="lr rr" data-row="${key}" data-testid="recall-row-${p.id}"><div class="c-main"><a class="nm" href="#patient/${p.id}">${esc(p.name)}</a><div class="sub meta"><span>${hec?`Up hecting, ${S.hectingWeeks} minggu setelah odontektomi ${fmtS(r.odon.date)}`:typeName(p)}</span>${!hec&&i?`<span class="cn">${ivTxt(i.v,i.u)}</span>`:''}</div></div>
+   <div class="c-due"><div class="nm">${fmtDM(r.due)}</div><div class="sub ${st.cls}">${st.text}</div></div>
+   <div class="c-iv">${hec?'Sekali datang':i?ivTxt(i.v,i.u):''}</div>
+   <div class="c-act acts">${waBtn(p,'reminder','wa-'+p.id,true)}<button class="btn sm" data-act="${hec?'bookh':'book'}" data-id="${p.id}" data-testid="book-${p.id}">Buat jadwal</button></div></div>`;
+}
+const EMPTY={due:['Tidak ada yang jatuh tempo minggu ini','Pasien dengan jatuh tempo lebih jauh ada di tab Belum ada jadwal.'],over:['Tidak ada pasien yang terlambat','Semua pasien aktif sudah dijadwalkan atau belum jatuh tempo.'],none:['Semua pasien aktif sudah punya jadwal','Pasien tanpa jadwal akan muncul di sini.'],fu:['Tidak ada follow-up konsultasi','Pasien konsultasi yang perlu dihubungi akan muncul di sini.']};
+function viewRecall(){
+  const R=recall();
+  const tabs=[['due','Jatuh tempo minggu ini',R.week],['over','Terlambat',R.over],['none','Belum ada jadwal',R.none],['fu','Follow-up konsultasi',R.fu]];
+  const cur=tabs.find(t=>t[0]===S.recallTab)||tabs[0],rows=cur[2];
+  const fu=cur[0]==='fu';
+  const head=fu?`<div class="lh lh-c" style="--cols:minmax(0,1fr) minmax(0,.8fr) 470px"><span>Pasien</span><span>Follow-up</span><span></span></div>`
+    :`<div class="lh lh-c" style="--cols:minmax(0,1.4fr) minmax(0,1fr) minmax(0,.9fr) 270px"><span>Pasien</span><span>Jatuh tempo</span><span>Periode kontrol</span><span></span></div>`;
+  const sub={due:'Pasien yang perlu dijadwalkan kontrol berikutnya dalam 7 hari.',over:'Sudah lewat jatuh tempo dan belum ada jadwal.',none:'Pasien aktif tanpa jadwal, jatuh tempo lebih dari 7 hari lagi.',fu:'Pasien konsultasi yang belum memulai perawatan.'}[cur[0]];
+  const tot=R.week.length+R.over.length+R.fu.length;
+  return `<header class="ph"><h1 class="title only-d">Recall</h1><p class="sub">${tot?`${tot} pasien perlu tindak lanjut`:'Semua pasien sudah tertangani'}</p></header>
+  <div class="tabs" role="tablist" aria-label="Daftar recall">${tabs.map(([k,l,r])=>`<button role="tab" id="rtab-${k}" aria-selected="${cur[0]===k}" aria-controls="recall-panel" tabindex="${cur[0]===k?0:-1}" class="${cur[0]===k?'on':''}" data-act="rtab" data-id="${k}" data-testid="tab-${k}"><span>${l}</span><em aria-label="${r.length} pasien">${r.length}</em></button>`).join('')}</div>
+  <div class="descrow"><p class="tabdesc" data-testid="tab-desc">${sub}</p><button class="btn sm xl" data-act="export" data-id="recall" data-testid="export-recall">Export Excel</button></div>
+  <div class="ledger" id="recall-panel" role="tabpanel" aria-labelledby="rtab-${cur[0]}" data-testid="recall-list">${rows.length?`<div class="only-d">${head}</div>`+rows.map(recallRow).join(''):empty(...EMPTY[cur[0]])}</div>`;
+}
+
+/* uniform: line 1 = date, line 2 = coloured note */
+function nextCell(p){
+  if(p.status==='konsultasi'&&p.consult){const d=fuDue(p),st=dueState(d);return {l1:`Follow-up ${fmtDM(d)}`,l2:`<span class="${st.cls}">${st.text}, dihubungi ${fuCount(p)} dari ${FU_MAX}</span>`}}
+  if(isAct(p)){
+    const a=nextAppt(p);
+    if(a)return {l1:`${fmtDM(a.date)}, ${a.time||'jam menyusul'}`,l2:`<span class="st-sched">${KIND[a.kind]}, terjadwal</span>`};
+    const d=dueDate(p);if(!d)return {l1:'-',l2:''};
+    const st=dueState(d);return {l1:`Jatuh tempo ${fmtDM(d)}`,l2:`<span class="${st.cls}">${st.text}</span>`};
+  }
+  return {l1:'<span class="muted">-</span>',l2:''};
+}
+const FK={status:'fStatus',tx:'fTx'};
+const AFDEF={status:()=>Object.keys(PST).map(k=>[k,PST[k][0]]),tx:()=>TYPES.map(t=>[t.id,t.name])};
+const AFT={status:'Status',tx:'Perawatan'};
+const nextKey=p=>{if(p.status==='konsultasi'&&p.consult)return fuDue(p);if(isAct(p)){const a=nextAppt(p);return a?a.date:(dueDate(p)||'9998')}return '9999'};
+function filteredPatients(){
+  const q=S.pq.trim().toLowerCase(),qd=q.replace(/[\s-]/g,''),so=Object.keys(PST),{k,d}=S.sort;
+  const key={name:p=>p.name,tx:p=>p.tx?tx(p.tx).name:'~',next:nextKey,status:p=>String(so.indexOf(p.status))};
+  return patients.filter(p=>(!S.fStatus||S.fStatus.includes(p.status))&&(!S.fTx||S.fTx.includes(p.tx))&&(!q||p.name.toLowerCase().includes(q)||(qd&&p.phone.replace(/-/g,'').includes(qd))))
+    .sort((a,b)=>d*(key[k](a).localeCompare(key[k](b)))||a.name.localeCompare(b.name));
+}
+function filterBody(g){
+  const sel=S[FK[g]];
+  return `<div data-afc="${g}"><label class="afi all"><input type="checkbox" data-afall="${g}" ${sel?'':'checked'}>Semua</label>`+AFDEF[g]().map(([v,l])=>`<label class="afi"><input type="checkbox" data-afi="${v}" ${!sel||sel.includes(v)?'checked':''}>${l}</label>`).join('')+`</div>`;
+}
+function filterChips(){
+  const n=filteredPatients().length;
+  const parts=['status','tx'].filter(g=>S[FK[g]]).map(g=>{const sel=S[FK[g]],names=AFDEF[g]().filter(x=>sel.includes(x[0])).map(x=>x[1]);
+    const t=names.length>2?names.length+' dipilih':names.join(', ')||'Tidak ada';
+    return `<span class="fc" data-testid="chip-${g}">${AFT[g]}: ${esc(t)}<button data-act="afclear" data-id="${g}" aria-label="Hapus filter ${AFT[g]}">&times;</button></span>`}).join('');
+  return `<div class="pchips"><div class="fcs">${parts}</div>${(S.pq.trim()||S.fStatus||S.fTx)?`<span class="sub" data-testid="pcount">Menampilkan ${n} dari ${patients.length} pasien</span>`:''}</div>`;
+}
+function patientList(){
+  const rows=filteredPatients();
+  const hb=(k,l)=>`<button class="hb" data-act="sort" data-id="${k}" data-testid="th-${k}" aria-label="Urutkan ${l}${S.sort.k===k?(S.sort.d>0?', saat ini naik':', saat ini turun'):''}">${l}${S.sort.k===k?ic(S.sort.d>0?'up':'down'):''}</button>`;
+  const fb=g=>`<button class="fb ${S[FK[g]]?'on':''}" data-act="afopen" data-id="${g}" data-testid="af-${g}" aria-label="Filter ${AFT[g]}" aria-haspopup="dialog" aria-expanded="${S.af===g}">${ic('filter')}</button>`;
+  const head=`<div class="only-d"><div class="lh lh-v" style="--cols:minmax(0,1.2fr) minmax(0,1.1fr) minmax(0,1.3fr) 108px"><span>${hb('name','Pasien')}</span><span class="hc">${hb('tx','Perawatan')}${fb('tx')}</span><span>${hb('next','Kunjungan berikutnya')}</span><span class="hc">${hb('status','Status')}${fb('status')}</span></div></div>`;
+  if(!rows.length)return head+`<div data-testid="patients-empty">${empty('Tidak ada pasien yang cocok','Coba kata kunci lain atau hapus filter.',`<button class="btn" data-act="clearq" data-testid="clear-search">Hapus pencarian dan filter</button>`)}</div>`;
+  return head+
+  rows.map(p=>{const i=curIv(p),nc=nextCell(p);
+    return `<a class="lr pr" href="#patient/${p.id}" data-testid="patient-row-${p.id}"><div class="c-main"><div class="nm">${esc(p.name)}</div><div class="sub meta"><span class="only-d">${p.phone}</span><span class="only-m">${p.tx?tx(p.tx).name:'Perawatan belum ditentukan'}</span></div></div>
+     <div class="c-stat">${pChip(p)}</div>
+     <div class="c-treat"><div>${p.tx?tx(p.tx).name:'<span class="muted">Belum ditentukan</span>'}</div>${i?`<div class="sub">${ivTxt(i.v,i.u)}</div>`:''}</div>
+     <div class="c-next"><div>${nc.l1}</div>${nc.l2?`<div class="sub">${nc.l2}</div>`:''}</div></a>`}).join('');
+}
+const patientBlock=()=>filterChips()+`<div class="ledger" id="plist" data-testid="patient-list">${patientList()}</div>`;
+const fcount=()=>(S.fStatus?1:0)+(S.fTx?1:0);
+function viewPatients(){
+  return `<header class="ph"><h1 class="title only-d">Pasien</h1><p class="sub">${patients.length} pasien</p></header>
+  <div class="toolbar"><div class="search">${ic('search')}<input id="patient-search" type="search" data-testid="patient-search" placeholder="Cari nama atau nomor WhatsApp" aria-label="Cari pasien" value="${esc(S.pq)}" autocomplete="off"></div><span class="sp only-d"></span>
+   <div class="tb-act"><button class="btn hide-d" data-act="fsheet" data-testid="filter-open">${ic('filter')}<span id="fbl">${fcount()?'Filter ('+fcount()+')':'Filter'}</span></button><button class="btn xl" data-act="export" data-id="patients" data-testid="export-patients">Export Excel</button>
+   <button class="btn primary" data-act="addp" data-testid="add-patient">${ic('plus')}Tambah pasien</button></div></div>
+  <div id="pwrap">${patientBlock()}</div>`;
+}
+
+function viewPatient(id){
+  const p=pat(id);if(!p)return empty('Pasien tidak ditemukan','Pasien ini mungkin sudah dihapus.','<a class="btn" href="#patients">Ke daftar pasien</a>');
+  const i=curIv(p),due=dueDate(p),nx=nextAppt(p),act=isAct(p);
+  const ivRows=p.iv.map((r,k)=>({r,k})).sort((a,b)=>b.r.date.localeCompare(a.r.date)||b.k-a.k);
+  const visits=pApps(p.id).filter(a=>a.status!=='cancelled'||true).slice().sort((a,b)=>byTime(b,a));
+  let dueSub='';
+  if(act){const d=diff(due,TODAY);dueSub=nx?(nx.date===due?'Sesuai jadwal':`Terjadwal ${fmtDM(nx.date)}`):d<0?`<span class="st-late">Terlambat ${-d} hari</span>`:'Belum ada jadwal'}
+  const kon=p.status==='konsultasi'||(p.status==='tidaklanjut'&&p.consult),stillK=p.status==='konsultasi';
+  const facts=kon?`<div><div class="k">Tanggal konsultasi</div><div class="v">${fmtSY(p.consult.date)}</div></div>
+    <div><div class="k">Perawatan</div><div class="v">${p.tx?tx(p.tx).name:'Belum ditentukan'}</div></div>
+    ${stillK?`<div><div class="k">Follow-up berikutnya</div><div class="v">${fmtSY(fuDue(p))}<small>${dueState(fuDue(p)).text}</small></div></div>`:`<div><div class="k">Terakhir dihubungi</div><div class="v">${p.consult.contacts.length?fmtSY(p.consult.contacts[p.consult.contacts.length-1]):'-'}</div></div>`}
+    <div><div class="k">Sudah dihubungi</div><div class="v">${fuCount(p)} dari ${FU_MAX}</div></div>
+    <div><div class="k">Sejak konsultasi</div><div class="v">${diff(TODAY,p.consult.date)} hari</div></div>
+    <div><div class="k">Status</div><div class="v">${PST[p.status][0]}</div></div>`
+   :`<div><div class="k">Perawatan</div><div class="v">${p.tx?tx(p.tx).name:'-'}</div></div>
+    <div><div class="k">Periode kontrol</div><div class="v" data-testid="current-interval">${i?ivTxt(i.v,i.u):'-'}</div>${i&&act?`<button class="lnk" data-act="chiv" data-id="${p.id}" data-testid="change-interval">Ubah periode</button>`:''}</div>
+    <div><div class="k">Mulai</div><div class="v">${p.start?fmtSY(p.start):'-'}</div></div>
+    <div><div class="k">Jatuh tempo</div><div class="v" data-testid="next-due">${act&&due?fmtSY(due):'-'}<small>${dueSub}</small></div></div>
+    <div><div class="k">Tidak datang</div><div class="v">${missedCount(p)} kali</div></div>
+    <div><div class="k">Kontrol terakhir</div><div class="v">${lastDone(p)?fmtSY(lastDone(p)):'-'}<small>${pApps(p.id).filter(a=>a.kind==='kontrol'&&a.status==='done').length} kontrol selesai</small></div></div>`;
+  const acts=`${waBtn(p,kon?'fu':'reminder','wa-'+p.id)}${kon?`<button class="btn ${stillK?'primary':''}" data-act="start" data-id="${p.id}" data-testid="start-${p.id}">Mulai perawatan</button>`:act?(nx?`<button class="btn primary" data-act="apptresch" data-id="${nx.id}" data-testid="resched-${p.id}">Ubah jadwal</button>`:`<button class="btn primary" data-act="book" data-id="${p.id}" data-testid="book-${p.id}">Buat jadwal</button>`):''}<button class="btn" data-act="status" data-id="${p.id}" data-testid="change-status">Ubah status</button>`;
+  const hasWire=patientWireItems(p).length>0;
+  const wire=kon?(stillK&&fuCount(p)>=FU_MAX?`<div class="callout" data-testid="fu-max">Sudah dihubungi ${FU_MAX} kali tanpa memulai perawatan. Jika pasien tidak jadi, ubah status menjadi Tidak lanjut.</div>`:''):`<section class="panel" data-testid="archwire"><h2>Riwayat kontrol</h2>${hasWire?`<p class="d">Dari kunjungan pertama di kiri sampai jadwal berikutnya di kanan.</p><div class="wire" data-wire="${p.id}"></div>${wireLegend()}`:`<p class="d">Belum ada kunjungan kontrol. Garis waktu muncul setelah kunjungan pertama dijadwalkan.</p>`}</section>`;
+  return `<a class="back" href="#patients">${ic('back')}Pasien</a>
+  <div class="dhead"><div><div class="nmrow"><h1 class="title">${esc(p.name)}</h1>${pChip(p)}</div><div class="ph-num">WhatsApp ${p.phone}</div></div><div class="acts">${acts}</div></div>
+  <div class="facts">${facts}</div>${wire}
+  <div class="two ${kon||!ivRows.length?'one':''}">
+   <section class="sect plain"><h2>Riwayat kunjungan</h2><div class="ledger" data-testid="visit-history">${visits.length?visits.slice(0,10).map(a=>`<div class="lr hr" role="button" tabindex="0" data-act="appt" data-id="${a.id}" style="cursor:pointer" data-testid="visit-row-${a.id}"><div><div class="t">${fmt(a.date)}</div><div class="sub">${KIND[a.kind]}, ${a.time||'jam menyusul'}${a.resched?', dipindah':''}</div></div><div>${aChip(a)}</div></div>`).join(''):empty('Belum ada kunjungan','Kunjungan muncul di sini setelah dijadwalkan.')}</div>${visits.length>10?`<p class="sub" style="margin-top:8px">Menampilkan 10 dari ${visits.length} kunjungan terbaru</p>`:''}</section>
+   ${kon||!ivRows.length?'':`<section class="sect plain"><h2>Riwayat periode</h2><div class="ledger" data-testid="interval-history">${ivRows.map(({r},n)=>`<div class="lr hr"><div><div class="nm">${ivTxt(r.v,r.u)}</div><div class="sub">${esc(r.note)||'Tanpa catatan'}</div></div><div class="sub" style="text-align:right">${fmtSY(r.date)}${n===0?`<div>${chip('tag','Berlaku')}</div>`:''}</div></div>`).join('')}</div></section>`}
+  </div>`;
+}
+
+/* calendar */
+const HH=46;
+const short=n=>{const w=n.split(' ');return w.length>1?w[0]+' '+w[1][0]+'.':n};
+const dayLines=d=>appts.filter(a=>a.date===d&&a.status!=='cancelled').sort(byTime).map(a=>({t:a.time,name:short(pat(a.pid).name),aid:a.id}));
+function monthGrid(){
+  const m0=S.calMonth,mEnd=addDays(addMonths(m0,1),-1),start=weekStart(m0),end=addDays(weekStart(mEnd),6);
+  let rows='';
+  for(let ws=start;ws<=end;ws=addDays(ws,7)){
+    let tds='';
+    for(let k=0;k<7;k++){const d=addDays(ws,k),dn=P(d).getUTCDate();
+      if(k===6){tds+=`<td class="sun"><div class="dh"><span class="dn">${dn}</span><span class="dlz">Tutup</span></div></td>`;continue}
+      if(d.slice(0,7)!==m0.slice(0,7)){tds+=`<td class="out"><div class="dh"><span class="dn">${dn}</span></div></td>`;continue}
+      const n=load(d),cls=d<TODAY?'past':loadCls(n/S.rules.max),L=dayLines(d);
+      tds+=`<td class="${cls} ${d===TODAY?'today':''}" data-testid="mday-${d}"><div class="dh"><span class="dn">${dn}</span>${n?`<span class="dlz">${n}/${S.rules.max}</span>`:''}</div>${L.slice(0,3).map(l=>`<span class="ln ${l.aid?'lk':''}" ${l.aid?`role="button" tabindex="0" data-act="appt" data-id="${l.aid}"`:''}><b>${l.t||'--:--'}</b>${l.name}</span>`).join('')}${L.length>3?`<button class="more" data-act="cweek" data-id="${d}">+${L.length-3} lagi</button>`:''}</td>`}
+    rows+=`<tr>${tds}</tr>`}
+  return `<table class="mg" data-testid="cal-month"><thead><tr>${['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(x=>`<th>${x}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;
+}
+function weekCol(d,wk){
+  const real=wk.filter(a=>a.date===d&&a.time);
+  const byT={};real.forEach(a=>{(byT[a.time]=byT[a.time]||[]).push(a)});
+  let out='';
+  Object.keys(byT).forEach(t=>{const L=byT[t];L.forEach((a,k)=>{
+    const p=pat(a.pid),[hh,mm]=t.split(':').map(Number),top=((hh*60+mm)-480)/60*HH,w=100/L.length,cls=`blk ${a.status==='scheduled'&&a.kind!=='kontrol'?'kind':a.status}`;
+    out+=`<div class="${cls}" style="top:${top}px;height:${Math.max(apptMin(a)/60*HH-2,22)}px;left:calc(${k*w}% + 2px);width:calc(${w}% - 4px)" data-act="appt" data-id="${a.id}" data-testid="blk-${p.id}" title="${t} ${esc(p.name)}, ${a.kind==='kontrol'?typeName(p):KIND[a.kind]}" role="button" tabindex="0" aria-label="${t} ${esc(p.name)}, ${a.kind==='kontrol'?typeName(p):KIND[a.kind]}, ${AST[a.status][0]}"><b>${t}</b>${esc(short(p.name))}</div>`})});
+  return `<div class="col ${d===TODAY?'today':''}">${out}</div>`;
+}
+const LEGNOTE=()=>`Angka ${Math.min(6,S.rules.max)}/${S.rules.max} artinya ${Math.min(6,S.rules.max)} jadwal dari maksimal ${S.rules.max} per hari`;
+function viewCalendar(){
+  const mo=S.calMode==='month',ws=S.calWeek,days=[0,1,2,3,4,5].map(n=>addDays(ws,n));
+  const wk=appts.filter(a=>a.date>=days[0]&&a.date<=days[5]&&a.status!=='cancelled').sort(byTime);
+  const rng=`${P(days[0]).getUTCDate()} ${MON[P(days[0]).getUTCMonth()]} sampai ${P(days[5]).getUTCDate()} ${MON[P(days[5]).getUTCMonth()]} ${P(days[5]).getUTCFullYear()}`;
+  const mtitle=`${ID_MON[P(S.calMonth).getUTCMonth()]} ${P(S.calMonth).getUTCFullYear()}`;
+  const hrs=[];for(let h=8;h<=17;h++)hrs.push(`<div>${pad2(h)}:00</div>`);
+  const week=`<div data-testid="cal-grid"><div class="calh"><div></div>${days.map(d=>`<div class="${d===TODAY?'today':''}" data-testid="cal-head-${d}">${DOWS[dow(d)]}<b>${P(d).getUTCDate()}</b>${loadChip(d)}</div>`).join('')}</div><div class="calb"><div class="hours">${hrs.join('')}</div>${days.map(d=>weekCol(d,wk)).join('')}</div></div>`;
+  const bar=`<div class="calbar"><button class="btn ic" data-act="cprev" data-testid="cal-prev" aria-label="Sebelumnya">${ic('prev')}</button><button class="btn ic" data-act="cnext" data-testid="cal-next" aria-label="Berikutnya">${ic('next')}</button><button class="btn" data-act="ctoday" data-testid="cal-today">Hari ini</button><h2 data-testid="cal-range">${mo?mtitle:rng}</h2><span class="sp"></span>${mo?`<button class="btn xl" data-act="export" data-id="calendar" data-testid="export-calendar">Export Excel</button>`:''}
+   <div class="seg" style="min-width:200px" role="group" aria-label="Tampilan kalender"><button aria-pressed="${!mo}" class="${mo?'':'on'}" data-act="cmode" data-id="week" data-testid="cal-tab-week">Minggu</button><button aria-pressed="${mo}" class="${mo?'on':''}" data-act="cmode" data-id="month" data-testid="cal-tab-month">Bulan</button></div></div>`;
+  const list=`<div class="only-m"><div class="calbar-m"><button class="btn ic" data-act="cprev" data-testid="cal-prev-m" aria-label="Sebelumnya">${ic('prev')}</button><button class="btn ic" data-act="cnext" data-testid="cal-next-m" aria-label="Berikutnya">${ic('next')}</button><button class="btn" data-act="ctoday" data-testid="cal-today-m">Hari ini</button><h2>${rng}</h2></div><div style="margin:-2px 0 16px">${loadLegend(LEGNOTE())}</div>${days.map(d=>{const L=wk.filter(a=>a.date===d),all=S.calOpen[d],vis=all?L:L.slice(0,6);return `<div class="daysec"><h3>${fmtId(d).replace(/ \d{4}$/,'')}${d===TODAY?chip('tag','Hari ini'):''}${loadChip(d)}</h3>${L.length?`<div class="ledger">${vis.map(a=>{const p=pat(a.pid);return `<div class="lr hrow" role="button" tabindex="0" data-act="appt" data-id="${a.id}" style="cursor:pointer"><b>${a.time||'--:--'}</b><div><div class="nm">${esc(p.name)}</div><div class="sub">${a.kind==='kontrol'?typeName(p):KIND[a.kind]}</div></div>${aChip(a)}</div>`}).join('')}</div>${L.length>vis.length?`<button class="btn sm" style="margin-top:8px;width:100%" data-act="cexp" data-id="${d}">Tampilkan ${L.length-vis.length} jadwal lagi</button>`:''}`:`<div class="ledger"><div class="empty slim">Tidak ada jadwal</div></div>`}</div>`}).join('')}</div>`;
+  return `<header class="ph"><h1 class="title only-d">Kalender</h1><p class="sub">Klinik tutup hari Minggu</p></header>
+  <div class="calcard only-d">${bar}<div class="calleg">${loadLegend(LEGNOTE())}</div>${mo?monthGrid():week}</div>${list}`;
+}
+
+/* settings */
+function viewSettings(){
+  const sample=fillTpl(S.template,pat('p1'),nextOpen(TODAY),'10:00'),sampleC=fillTpl(S.callTemplate,pat('p1'),openDay(T(3))),sampleF=fillTpl(S.fuTemplate,pat('p20'));
+  const unitSel=t=>`<select data-tu="${t.id}" aria-label="Satuan ${t.name}"><option value="week" ${t.u==='week'?'selected':''}>minggu</option><option value="month" ${t.u==='month'?'selected':''}>bulan</option></select>`;
+  return `<header class="ph"><h1 class="title only-d">Pengaturan</h1><p class="sub">Klinik, jenis perawatan, pesan WhatsApp, dan jadwal.</p></header>
+  <div class="set">
+  <section class="sect" data-testid="sec-clinic"><h2>Klinik</h2><p class="d">Tampil di pesan WhatsApp.</p><div class="inner"><label class="lb" for="clinic-name">Nama klinik</label><input id="clinic-name" data-testid="clinic-name" value="${esc(S.clinic)}"></div></section>
+  <section class="sect" data-testid="sec-treatments"><h2>Jenis perawatan</h2><p class="d">Periode kontrol bawaan, dipakai saat menambah pasien atau memulai perawatan.</p>
+   <div class="inner"><div class="grp">Perawatan rutin</div>${TYPES.map(t=>`<div class="trow"><div class="tn">${t.name}</div><input type="number" min="1" data-tv="${t.id}" value="${t.v}" aria-label="Periode ${t.name}">${unitSel(t)}${t.range?`<div class="sub">${t.range}</div>`:''}</div>`).join('')}
+   <div class="grp" style="margin-top:24px">Tindakan</div><p class="sub" style="margin-bottom:4px">Dicatat sebagai jenis kunjungan, bukan perawatan pasien.</p>${TINDAKAN.map(t=>`<div class="trow"><div class="tn">${t.name}</div>${t.k==='odon'?`<span class="inl"><span class="sub">Up hecting setelah</span><input type="number" min="1" id="hecting-weeks" data-testid="hecting-weeks" value="${S.hectingWeeks}" aria-label="Minggu sampai Up hecting"><span class="sub">minggu</span></span>`:''}<div class="sub">${t.note}</div></div>`).join('')}</div></section>
+  <section class="sect" data-testid="sec-whatsapp"><h2>Pesan WhatsApp</h2><p class="d">Klik penanda untuk menyisipkannya.</p>
+   <div class="inner"><label class="lb" for="wa-template">Pengingat jadwal kontrol</label><p class="sub" style="margin:-2px 0 6px">Dipakai untuk pasien yang sudah punya jadwal.</p><textarea id="wa-template" data-testid="wa-template">${esc(S.template)}</textarea>
+   <div class="hints">Penanda ${['{nama}','{tanggal}','{jam}','{klinik}'].map(h=>`<button data-act="hint" data-id="${h}" data-for="wa-template" aria-label="Sisipkan ${h}">${h}</button>`).join('')}</div>
+   <div class="preview"><small>Contoh pesan</small><span id="tpl-preview">${esc(sample)}</span></div>
+   <label class="lb" for="call-template" style="margin-top:20px">Ajakan kontrol</label><p class="sub" style="margin:-2px 0 6px">Dipakai untuk pasien yang belum punya jadwal.</p><textarea id="call-template" data-testid="call-template">${esc(S.callTemplate)}</textarea>
+   <div class="hints">Penanda ${['{nama}','{tanggal}','{klinik}'].map(h=>`<button data-act="hint" data-id="${h}" data-for="call-template">${h}</button>`).join('')}</div>
+   <div class="preview"><small>Contoh pesan</small><span id="call-preview">${esc(sampleC)}</span></div>
+   <label class="lb" for="fu-template" style="margin-top:20px">Follow-up konsultasi</label><textarea id="fu-template" data-testid="fu-template">${esc(S.fuTemplate)}</textarea>
+   <div class="hints">Penanda ${['{nama}','{klinik}'].map(h=>`<button data-act="hint" data-id="${h}" data-for="fu-template">${h}</button>`).join('')}</div>
+   <div class="preview"><small>Contoh pesan</small><span id="fu-preview">${esc(sampleF)}</span></div></div></section>
+  <section class="sect" data-testid="sec-rules"><h2>Aturan jadwal</h2><p class="d">Dipakai untuk menyarankan tanggal dan menjaga beban harian tetap merata.</p>
+   <div class="inner"><div class="lbl" id="days-l">Hari kerja</div><div class="qchips" role="group" aria-labelledby="days-l" style="margin-bottom:16px">${[1,2,3,4,5,6,0].map(n=>`<button aria-pressed="${S.rules.days.includes(n)}" aria-label="${ID_DOW[n]}" class="fchip ${S.rules.days.includes(n)?'on':''}" data-act="rday" data-id="${n}" data-testid="rule-day-${n}">${DOWS[n]}</button>`).join('')}</div>
+   <div class="row2"><div class="fld"><label class="lb" for="rule-from">Jam buka</label><input id="rule-from" type="time" step="1800" data-testid="rule-from" value="${S.rules.from}"></div><div class="fld"><label class="lb" for="rule-to">Jam tutup</label><input id="rule-to" type="time" step="1800" data-testid="rule-to" value="${S.rules.to}"></div></div>
+   <div class="row2"><div class="fld" style="margin:0"><label class="lb" for="rule-max">Maksimal pasien per hari</label><input type="number" min="1" id="rule-max" data-testid="rule-max" value="${S.rules.max}"></div><div class="fld" style="margin:0"><label class="lb" for="rule-window">Rentang fleksibel (hari)</label><input type="number" min="0" id="rule-window" data-testid="rule-window" value="${S.rules.window}"></div></div></div></section>
+  <section class="sect" data-testid="sec-phone"><h2>Akses dari ponsel</h2><p class="d">Buka lewat Wi-Fi klinik.</p><div class="inner phone-card"><div class="qr" data-testid="qr">${qrSvg()}</div><div style="flex:1;min-width:200px"><div class="muted sm">Pindai kode QR, atau ketik alamat ini di browser ponsel:</div><div class="addr" data-testid="lan-address">http://192.168.1.20:8080</div><div class="muted sm">Hanya berfungsi saat ponsel terhubung ke Wi-Fi klinik.</div></div><p class="pnote" style="flex-basis:100%;margin-top:0" data-testid="note-phone"><i></i>Prototype: kode QR dan alamat ini hanya contoh dan belum bisa dibuka.</p></div></section>
+  <section class="sect" data-testid="sec-security"><h2>Keamanan dan cadangan</h2><p class="d">PIN melindungi data pasien. Di aplikasi sebenarnya, cadangan dibuat otomatis setiap hari.</p><div class="inner"><div class="acts"><button class="btn" data-act="pin" data-testid="change-pin">Ubah PIN</button><button class="btn" data-act="backup" data-testid="backup-now">Cadangkan sekarang</button></div><p class="pnote" data-testid="note-security"><i></i>Prototype: PIN dan cadangan belum benar-benar bekerja. Tombol ini hanya menunjukkan alurnya.</p></div></section>
+  <section class="sect" data-testid="sec-proto"><h2>Mode prototype</h2><p class="d">Data contoh dibuat dari tanggal hari ini dan hanya tersimpan di browser ini.</p><div class="inner"><div class="protomark" style="margin-bottom:14px"><i></i>Mode prototype, data contoh</div><button class="btn bad" data-act="reset" data-testid="reset-data">Reset data contoh</button></div></section>
+  </div>`;
+}
+
+/* ---------- shell / route ---------- */
+function shell(route,inner,title){
+  const R=recall(),bc=R.week.length+R.over.length+R.fu.length;
+  const nav=NAV.map(([k,l])=>`<a href="#${k}" class="${route===k?'on':''}" data-testid="nav-${k}" ${route===k?'aria-current="page"':''}>${ic(k)}<span>${l}</span>${k==='recall'&&bc?`<span class="badge" data-testid="recall-badge" aria-label="${bc} perlu tindak lanjut">${bc}</span>`:''}</a>`).join('');
+  const tabs=NAV.map(([k,l])=>`<a href="#${k}" class="${route===k?'on':''}" data-testid="tab-${k}-m" ${route===k?'aria-current="page"':''}>${ic(k)}<span>${l}</span>${k==='recall'&&bc?`<span class="badge">${bc}</span>`:''}</a>`).join('');
+  return `<a class="skip" href="#main" data-act="skip">Lewati ke konten</a><div class="shell"><aside class="side"><div class="side-in"><div class="brand"><img src="assets/logo-full-dark.png" alt="Milda Orthodontic Specialist"></div><nav aria-label="Menu utama">${nav}</nav>
+  <div class="foot"><div class="clinic">${esc(S.clinic)}<br>${fmtId(TODAY)}</div><div class="proto">Mode prototype, data contoh</div><a href="#login">${ic('lock')}Kunci</a></div></div></aside>
+  <div class="content"><div class="topbar"><h1 class="title">${title}</h1><img src="assets/logo-mark.png" alt=""></div><main id="main" tabindex="-1" data-testid="main">${inner}</main></div>
+  <nav class="tabbar" aria-label="Menu utama">${tabs}</nav></div>`;
+}
+let pinBuf='';
+const greet=()=>{const h=_now.getHours();return h<11?'Selamat pagi':h<15?'Selamat siang':h<18?'Selamat sore':'Selamat malam'};
+function viewLogin(){
+  const arc=c=>`<svg class="arc" viewBox="0 0 300 36" aria-hidden="true"><path d="M4 30 Q 150 34 296 6" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"/></svg>`;
+  return `<div class="login"><div class="brandp"><img class="light" src="assets/logo-full.png" alt="Milda Orthodontic Specialist"><img class="dark" src="assets/logo-full-dark.png" alt="Milda Orthodontic Specialist">${arc('#C9C9C9')}<p>Jadwal kontrol dan recall pasien</p></div>
+  <div class="formp"><h1>${greet()}</h1><p class="lead">Masukkan PIN klinik</p>
+  <div class="dots" id="dots" data-testid="pin-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div><p class="sr" id="pin-sr" role="status"></p>
+  <div class="keys">${[1,2,3,4,5,6,7,8,9].map(n=>`<button data-act="key" data-id="${n}" data-testid="pin-key-${n}">${n}</button>`).join('')}<span aria-hidden="true"></span><button data-act="key" data-id="0" data-testid="pin-key-0">0</button><button class="gh" data-act="keyb" data-testid="pin-back" aria-label="Hapus">&#9003;</button></div>
+  <small class="hintx">Prototype: masukkan 4 angka apa saja</small></div></div>`;
+}
+function updDots(){document.querySelectorAll('#dots i').forEach((d,i)=>d.classList.toggle('on',i<pinBuf.length));const r=$('#pin-sr');if(r)r.textContent=`${pinBuf.length} dari 4 angka`}
+function pressKey(k){
+  if(k==='b')pinBuf=pinBuf.slice(0,-1);else if(pinBuf.length<4)pinBuf+=k;
+  updDots();
+  if(pinBuf.length===4){setTimeout(()=>{pinBuf='';location.hash='#today'},300)}
+}
+const VIEWS={today:()=>[viewToday(),'Hari ini'],recall:()=>[viewRecall(),'Recall'],calendar:()=>[viewCalendar(),'Kalender'],patients:()=>[viewPatients(),'Pasien'],settings:()=>[viewSettings(),'Pengaturan']};
+function paint(){
+  closePop();
+  const h=location.hash.slice(1)||'login';const [name,arg]=h.split('/');
+  if(name==='login'){pinBuf='';$('#app').innerHTML=viewLogin();document.title='Masuk | Milda Recall';return false}
+  let v;
+  if(name==='patient')v=[viewPatient(arg),'Pasien'];else if(VIEWS[name])v=VIEWS[name]();else{location.hash='#today';return false}
+  $('#app').innerHTML=shell(name==='patient'?'patients':name,v[0],v[1]);
+  document.title=(name==='patient'?(pat(arg)?pat(arg).name:'Pasien'):v[1])+' | Milda Recall';
+  drawWires();
+  return true;
+}
+function route(){
+  const h=location.hash.slice(1)||'login';const [name,arg]=h.split('/');
+  closeModal();
+  if(name==='recall'&&['due','over','none','fu'].includes(arg))S.recallTab=arg;
+  paint();window.scrollTo(0,0);
+}
+function rerender(){const y=window.scrollY,ae=document.activeElement,inMain=ae&&ae.closest&&ae.closest('main'),tid=inMain&&ae.dataset?ae.dataset.testid:null;
+  save();if(paint())window.scrollTo(0,y);
+  if(inMain&&!$('#modal-root .modal')){const n=tid&&document.querySelector(`[data-testid="${tid}"]`),m=$('main');(n||m)&&(n||m).focus({preventScroll:true})}}
+
+/* ---------- booking sheet ---------- */
+let bk=null;
+function suggest(anchor,excl){
+  const R=S.rules,out=[];
+  for(let k=-R.window;k<=R.window;k++){const d=addDays(anchor,k);
+    if(d<=TODAY||d===excl||!R.days.includes(dow(d)))continue;
+    const f=load(d)/R.max;if(f>=R.near/100)continue;
+    out.push({d,k,n:load(d),f,score:Math.abs(k)+f*5})}
+  return out.sort((a,b)=>a.score-b.score||a.k-b.k).slice(0,3);
+}
+const REASONS=['Permintaan pasien','Dokter berhalangan','Lainnya'];
+function anchorFor(p,kind){
+  if(kind==='kontrol'){const due=dueDate(p);return due?{due,anchor:due<TODAY?TODAY:due,over:due<TODAY}:{due:null,anchor:T(7),over:false}}
+  if(kind==='hecting'){const ph=pendingHecting(p);const due=ph?ph.due:T(7*S.hectingWeeks);return {due,anchor:due<=TODAY?T(1):due,over:ph?due<TODAY:false}}
+  return {due:null,anchor:T(7),over:false};
+}
+function setKind(kind){
+  const p=pat(bk.pid),a=anchorFor(p,kind);
+  Object.assign(bk,{kind,due:a.due,anchor:a.anchor,over:a.over,sug:suggest(a.anchor)});
+  bk.sel=bk.sug[0]?bk.sug[0].d:null;
+}
+function openBooking(pid,o){
+  o=o||{};const p=pat(pid);
+  bk={mode0:'new',pid,mode:'none',time:null,pref:o.pref||null,suggested:!!o.suggested,i:curIv(p)};
+  setKind(o.kind||'kontrol');
+  const ta=appts.find(a=>a.pid===pid&&a.date===TODAY&&a.status==='done'&&a.kind==='kontrol');
+  if(o.fromDone&&ta)bk.pref=ta.time;
+  modal('Buat jadwal','','<button class="btn" data-act="close" data-testid="book-cancel">Batal</button><button class="btn primary" data-act="booksave" data-testid="book-save" id="book-save">Simpan</button>','book');
+  renderBooking();
+}
+function openReschedule(aid){
+  const a=appts.find(x=>x.id===aid),p=pat(a.pid),sug=suggest(a.date,a.date);
+  bk={mode0:'resched',pid:a.pid,appt:a,kind:a.kind,anchor:a.date,over:false,due:null,sug,sel:sug[0]?sug[0].d:null,mode:'none',time:null,pref:a.time,reason:0,note:'',i:curIv(p)};
+  modal(`Ubah jadwal, ${esc(p.name)}`,'','<button class="btn" data-act="close" data-testid="book-cancel">Batal</button><button class="btn primary" data-act="booksave" data-testid="book-save" id="book-save">Simpan</button>','book');
+  renderBooking();
+}
+function pickTime(){const free=freeTimes(bk.sel);if(bk.time&&free.includes(bk.time))return;bk.time=(bk.pref&&free.includes(bk.pref))?bk.pref:(free[0]||null)}
+function renderBooking(){
+  const b=bk,p=pat(b.pid),R=S.rules,rs=b.mode0==='resched';
+  const lbl=rs?'tanggal semula':b.kind==='kontrol'?(b.over?'hari ini':'jatuh tempo'):'tanggal acuan';
+  const last=lastDone(p);
+  const dueBox=rs?`<div data-testid="rs-current"><small>Jadwal saat ini</small><b>${fmtDM(b.appt.date)}, ${b.appt.time||'jam menyusul'}</b></div>`
+    :`<div data-testid="book-due"><small>${b.kind==='kontrol'?'Jatuh tempo':b.kind==='hecting'?'Disarankan':'Tanggal acuan'}</small><b>${b.due?fmtDM(b.due):fmtDM(b.anchor)}</b>${b.over?`<em>Terlambat ${diff(TODAY,b.due)} hari</em>`:b.due&&dow(b.due)===0?'<em>Klinik tutup, digeser</em>':''}</div>`;
+  const sum=`<div class="sum4"><div><small>Pasien</small><b>${esc(p.name)}</b></div><div><small>Periode kontrol</small><b>${b.i?ivTxt(b.i.v,b.i.u):'-'}</b></div><div><small>Kontrol terakhir</small><b>${last===TODAY?'Hari ini':last?fmtSY(last):'-'}</b></div>${dueBox}</div>`;
+  const kindSeg=rs?`<div class="lbl">Jenis kunjungan</div><div class="summ" style="margin-bottom:16px"><b>${KIND[b.kind]}</b></div>`
+    :`<div class="lbl">Jenis kunjungan</div><div class="seg g2" style="margin-bottom:16px" role="group" aria-label="Jenis kunjungan">${Object.keys(KIND).map(k=>`<button aria-pressed="${b.kind===k}" class="${b.kind===k?'on':''}" data-act="kind" data-id="${k}" data-testid="kind-${k}">${KIND[k]}</button>`).join('')}</div>`;
+  const hint=b.suggested?`<div class="callout" data-testid="hecting-hint">Odontektomi selesai. Disarankan jadwal Up hecting ${S.hectingWeeks} minggu kemudian.</div>`:rs?`<div class="field"><div class="lbl">Alasan</div><div class="qchips" style="margin-bottom:10px">${REASONS.map((r,k)=>`<button aria-pressed="${b.reason===k}" class="fchip ${b.reason===k?'on':''}" data-act="reason" data-id="${k}" data-testid="reason-${k}">${r}</button>`).join('')}</div><input id="rs-note" data-testid="rs-note" placeholder="Catatan (opsional)" aria-label="Catatan" value="${esc(b.note)}" style="margin-bottom:16px"></div>`:'';
+  const sugHtml=b.sug.length?`<div class="sugs">${b.sug.map((x,n)=>`<button aria-pressed="${b.sel===x.d}" class="sug ${b.sel===x.d?'on':''}" data-act="sug" data-id="${x.d}" data-testid="sug-${n}">${n===0?'<span class="rec">Disarankan</span>':''}<b>${fmtDM(x.d)}</b><span class="d">${x.k===0?'Tepat '+lbl:x.k>0?`${x.k} hari setelah ${lbl}`:`${-x.k} hari sebelum ${lbl}`}</span><span class="lt">${x.n} dari ${R.max} terisi</span></button>`).join('')}</div>`:'<div class="hint" style="margin-bottom:16px">Tidak ada hari kosong dalam rentang fleksibel. Pilih tanggal lain dari kalender di bawah.</div>';
+  const w0=weekStart(addDays(b.anchor,-R.window)),w1=addDays(weekStart(addDays(b.anchor,R.window)),6);
+  let cells='';
+  for(let d=w0;d<=w1;d=addDays(d,1)){
+    const n=load(d),f=n/R.max,closed=!R.days.includes(dow(d)),past=d<=TODAY,full=n>=R.max,cur=rs&&d===b.appt.date;
+    const c=closed?'sun':loadCls(f);
+    const dis=closed||past||full||cur;
+    cells+=`<button class="hd ${c} ${past?'past':''} ${dis?'dis':''} ${d===b.anchor?'ring':''} ${d===b.sel?'sel':''}" ${dis?'disabled':`data-act="hday" data-id="${d}" aria-pressed="${d===b.sel}"`} data-hday="${d}" data-testid="day-${d}" aria-label="${fmtId(d)}, ${closed?'klinik tutup':n+' dari '+R.max+' terisi'}">${P(d).getUTCDate()}${!closed&&!past&&n?`<span class="ct">${n}/${R.max}</span>`:''}</button>`}
+  const m0=ID_MON[P(w0).getUTCMonth()],m1=ID_MON[P(w1).getUTCMonth()];
+  const heat=`<div class="lbl">${m0===m1?m0:m0+' sampai '+m1} ${P(w1).getUTCFullYear()}<span>Tanggal bergaris tepi adalah ${lbl}.</span></div><div class="heat" role="group" aria-label="Pilih tanggal">${['Sen','Sel','Rab','Kam','Jum','Sab','Min'].map(x=>`<div class="wd">${x}</div>`).join('')}${cells}</div>
+   ${loadLegend('Angka kecil: jadwal terisi per hari')}`;
+  let time=`<div class="lbl" style="margin-top:14px">Jam<span>(opsional)</span></div><div class="seg" role="group" aria-label="Jam"><button aria-pressed="${b.mode==='none'}" class="${b.mode==='none'?'on':''}" data-act="tmode" data-id="none" data-testid="time-mode-none">Tanggal saja, jam menyusul</button><button aria-pressed="${b.mode==='set'}" class="${b.mode==='set'?'on':''}" data-act="tmode" data-id="set" data-testid="time-mode-set">Atur jam sekarang</button></div>`;
+  if(b.mode==='set'){const free=freeTimes(b.sel);let sh=free.slice(0,8);if(b.time&&!sh.includes(b.time))sh[sh.length-1]=b.time;
+    time+=free.length?`<div class="tchips" data-testid="time-chips">${sh.map(t=>`<button aria-pressed="${b.time===t}" class="tchip ${b.time===t?'on':''}" data-act="tchip" data-id="${t}" data-testid="tchip-${t}">${t}</button>`).join('')}</div><div class="hint">Jam kosong pada ${fmtDM(b.sel)}</div>`:'<div class="hint">Tidak ada jam kosong pada hari ini.</div>'}
+  else time+='<div class="hint">Kunjungan tampil sebagai "jam menyusul" sampai jam diatur.</div>';
+  keepFocus($('#mb'),()=>{$('#mb').innerHTML=`<div class="bk"><div class="bk-a">${sum}${kindSeg}${hint}</div><div class="bk-b"><div class="lbl">Tanggal yang disarankan<span>Paling dekat dengan ${lbl}, hari paling longgar diutamakan.</span></div>${sugHtml}${heat}</div><div class="bk-c">${time}</div></div>`});
+}
+function saveBooking(){
+  const b=bk;if(!b.sel)return;
+  const time=b.mode==='set'?b.time:null,p=pat(b.pid);
+  const when=`${fmt(b.sel)}, ${time?'pukul '+time:'jam menyusul'}`;
+  if(b.mode0==='new'){
+    const go=()=>{appts.push({id:'a'+apptN++,pid:b.pid,date:b.sel,time,status:'scheduled',kind:b.kind});closeModal();rerender();toast(`Jadwal ${KIND[b.kind]} dibuat: ${when}`)};
+    closeModal();
+    if(location.hash.startsWith('#recall')){const sel=`[data-row$="-${b.pid}"]`;leave(sel,go)}else go();
+    return}
+  const a=b.appt,old={date:a.date,time:a.time,resched:a.resched};
+  a.resched={fromDate:a.date,fromTime:a.time,reason:REASONS[b.reason],note:b.note};
+  a.date=b.sel;a.time=time;
+  closeModal();rerender();
+  toast(`Jadwal dipindah: ${fmtDM(old.date)} ke ${fmtDM(b.sel)}, ${time?'pukul '+time:'jam menyusul'}`,()=>{
+    a.date=old.date;a.time=old.time;a.resched=old.resched;rerender();toast('Perubahan dibatalkan')});
+}
+function openAppt(aid){
+  const a=appts.find(x=>x.id===aid),p=pat(a.pid),i=curIv(p),sch=a.status==='scheduled';
+  modal(esc(p.name),`<div class="summ"><span>Tanggal</span><span>${fmtId(a.date)}</span><span>Jam</span><span>${a.time||'Jam menyusul'}</span><span>Jenis kunjungan</span><span>${KIND[a.kind]}</span><span>Perawatan</span><span>${typeName(p)}</span>${i?`<span>Periode kontrol</span><span>${ivTxt(i.v,i.u)}</span>`:''}<span>Status</span><span>${aChip(a)}</span>${a.resched?`<span>Dipindah dari</span><span>${fmtDM(a.resched.fromDate)}, ${a.resched.reason}</span>`:''}</div>`,
+   `${p.guest?'':`<button class="btn" data-act="apptpat" data-id="${p.id}" data-testid="appt-patient">Buka pasien</button>`}${sch?`<button class="btn bad" data-act="apptcancel" data-id="${a.id}" data-testid="appt-cancel">Batalkan kunjungan</button>`:''}${sch?waBtn(p,'reminder','appt-wa'):''}${sch?`<button class="btn primary" data-act="apptresch" data-id="${a.id}" data-testid="appt-reschedule">Ubah jadwal</button>`:''}`);
+}
+function openWA(pid,kind){
+  const p=pat(pid),pl=waPlan(p,kind),msg=pl.text;
+  modal('Pesan WhatsApp',`<div class="wa-to" data-testid="wa-recipient"><div class="wa-av" aria-hidden="true">${esc(p.name[0])}</div><div><b>${esc(p.name)}</b><div class="sub">${dispPhone(p.phone)}</div></div></div>
+   <label class="lb" for="wa-msg">Pesan: ${WAT[pl.t]}</label><textarea id="wa-msg" data-testid="wa-msg" style="min-height:150px">${esc(msg)}</textarea>
+   <p class="hint" data-testid="wa-which">${pl.t==='call'?'Pasien belum punya jadwal, jadi pesan mengajak mengatur jadwal.':pl.t==='reminder'?'Pasien sudah punya jadwal, jadi pesan berisi pengingat jadwalnya.':'Pasien masih konsultasi.'} Pesan bisa diubah sebelum dikirim. WhatsApp terbuka di tab baru.</p>`,
+   `<button class="btn" data-act="wacopy" data-testid="wa-copy">Salin teks</button><button class="btn wa" data-act="wasend" data-id="${pid}" data-testid="wa-send">${ic('chat')}Kirim lewat WhatsApp</button>`);
+}
+/* ---------- export (CSV, UTF-8 BOM, semicolon) ---------- */
+function csvText(rows){return '\ufeff'+rows.map(r=>r.map(c=>{c=c==null?'':String(c);return /[;"\r\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(';')).join('\r\n')}
+function downloadCsv(name,rows){
+  const blob=new Blob([csvText(rows)],{type:'text/csv;charset=utf-8'}),a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+  toast(`Export Excel selesai: ${name}`);
+}
+function exportCsv(id){
+  const ymd=TODAY.replace(/-/g,'');
+  if(id==='patients'){
+    const rows=[['Nama','WhatsApp','Perawatan','Status','Periode kontrol','Kontrol terakhir','Jatuh tempo','Jadwal berikutnya']];
+    filteredPatients().forEach(p=>{const i=curIv(p),a=nextAppt(p),due=p.status==='konsultasi'&&p.consult?fuDue(p):isAct(p)&&i?dueDate(p):'';
+      rows.push([p.name,p.phone,p.tx?tx(p.tx).name:'',PST[p.status][0],i&&p.status!=='konsultasi'?ivTxt(i.v,i.u):'',lastDone(p)||'',due,a?a.date+(a.time?' '+a.time:''):'']);});
+    downloadCsv(`milda-pasien-${ymd}.csv`,rows);
+  }else if(id==='recall'){
+    const R=recall(),cur={due:R.week,over:R.over,none:R.none,fu:R.fu}[S.recallTab]||R.week;
+    const rows=[['Nama','WhatsApp','Perawatan','Jenis','Periode kontrol','Jatuh tempo','Keterangan']];
+    cur.forEach(r=>{const i=curIv(r.p);rows.push([r.p.name,r.p.phone,r.p.tx?tx(r.p.tx).name:'',r.k==='fu'?'Follow-up konsultasi':r.k==='hecting'?'Up hecting':'Kontrol',i&&r.k==='kontrol'?ivTxt(i.v,i.u):'',r.due,dueState(r.due).text+(r.k==='fu'?', dihubungi '+fuCount(r.p)+' dari '+FU_MAX:'')])});
+    downloadCsv(`milda-recall-${ymd}.csv`,rows);
+  }else{
+    const m=S.calMonth.slice(0,7),rows=[['Tanggal','Jam','Nama','Perawatan','Jenis kunjungan','Status']];
+    appts.filter(a=>a.date.slice(0,7)===m&&a.status!=='cancelled').sort(byTime).forEach(a=>{const p=pat(a.pid);rows.push([a.date,a.time||'',p.name,typeName(p),KIND[a.kind],AST[a.status][0]])});
+    downloadCsv(`milda-kalender-${m.replace('-','')}.csv`,rows);
+  }
+}
+function openChangeInterval(pid){
+  const p=pat(pid),i=curIv(p);
+  const chips=[[2,'week'],[4,'week'],[6,'week'],[8,'week'],[6,'month']];
+  modal('Ubah periode kontrol',`<p class="muted" style="margin-bottom:14px">${esc(p.name)}, saat ini ${ivTxt(i.v,i.u).toLowerCase()}</p>
+   <div class="qchips" id="qchips" style="margin-bottom:16px">${chips.map(([v,u])=>`<button class="fchip" data-act="qchip" data-v="${v}" data-u="${u}" data-testid="iv-chip-${v}-${u}">${ivShort(v,u)}</button>`).join('')}</div>
+   <div class="row2"><div class="fld"><label class="lb" for="iv-value">Setiap</label><input type="number" min="1" id="iv-value" data-testid="iv-value" value="${i.v}"></div>
+   <div class="fld"><label class="lb" for="iv-unit">Satuan</label><select id="iv-unit" data-testid="iv-unit"><option value="week" ${i.u==='week'?'selected':''}>minggu</option><option value="month" ${i.u==='month'?'selected':''}>bulan</option></select></div></div>
+   <div class="fld"><label class="lb" for="iv-date">Tanggal disepakati</label><input type="date" id="iv-date" data-testid="iv-date" value="${TODAY}"></div>
+   <div class="fld"><label class="lb" for="iv-note">Catatan</label><input type="text" id="iv-note" data-testid="iv-note" placeholder="Contoh: disepakati dengan pasien"></div>`,
+   `<button class="btn" data-act="close" data-testid="iv-cancel">Batal</button><button class="btn primary" data-act="ivsave" data-id="${pid}" data-testid="iv-save">Simpan</button>`);
+  syncChips();
+}
+function syncChips(){const v=+$('#iv-value').value,u=$('#iv-unit').value;document.querySelectorAll('#qchips .fchip').forEach(c=>{const on=+c.dataset.v===v&&c.dataset.u===u;c.classList.toggle('on',on);c.setAttribute('aria-pressed',on)})}
+const typeOpts=(sel,blank)=>(blank?`<option value="">${blank}</option>`:'')+TYPES.map(t=>`<option value="${t.id}" ${sel===t.id?'selected':''}>${t.name}</option>`).join('');
+function openAddPatient(){
+  const t0=TYPES[0];
+  modal('Tambah pasien',`
+   <div class="fld"><label class="lb" for="np-name">Nama lengkap</label><input id="np-name" data-testid="np-name" aria-describedby="np-err" placeholder="Contoh: Sari Wulandari" autocomplete="off"></div>
+   <div class="fld"><label class="lb" for="np-phone">Nomor WhatsApp</label><input id="np-phone" data-testid="np-phone" aria-describedby="np-err" placeholder="0812-0000-0000" inputmode="tel"></div>
+   <div class="fld"><label class="lb" for="np-status">Status</label><select id="np-status" data-testid="np-status"><option value="aktif">Aktif, sudah memulai perawatan</option><option value="konsultasi">Konsultasi, belum memulai perawatan</option></select></div>
+   <div id="np-kon" hidden><div class="fld"><label class="lb" for="np-cdate">Tanggal konsultasi</label><input type="date" id="np-cdate" data-testid="np-cdate" value="${TODAY}"></div>
+    <div class="fld"><label class="lb" for="np-ctype">Jenis perawatan <span class="muted" style="font-weight:400">(opsional)</span></label><select id="np-ctype" data-testid="np-ctype">${typeOpts('','Belum ditentukan')}</select></div></div>
+   <div id="np-act"><div class="fld"><label class="lb" for="np-type">Jenis perawatan</label><select id="np-type" data-testid="np-type">${typeOpts('')}</select></div>
+    <div class="row2"><div class="fld"><label class="lb" for="np-v">Periode kontrol</label><input type="number" min="1" id="np-v" data-testid="np-iv-value" value="${t0.v}"></div>
+    <div class="fld"><label class="lb" for="np-u">Satuan</label><select id="np-u" data-testid="np-iv-unit"><option value="week" ${t0.u==='week'?'selected':''}>minggu</option><option value="month" ${t0.u==='month'?'selected':''}>bulan</option></select></div></div>
+    <div class="fld"><label class="lb" for="np-start">Tanggal mulai</label><input type="date" id="np-start" data-testid="np-start" value="${TODAY}"></div></div>
+   <div class="help" id="np-err" data-testid="np-error" role="alert"></div>`,
+   `<button class="btn" data-act="close">Batal</button><button class="btn primary" data-act="npsave" data-testid="np-save">Simpan</button>`);
+}
+function openStart(pid){
+  const p=pat(pid),t=tx(p.tx)||TYPES[0];
+  modal(`Mulai perawatan, ${esc(p.name)}`,`<p class="muted" style="margin-bottom:14px">Status menjadi Aktif dan pasien masuk ke recall kontrol.</p>
+   <div class="fld"><label class="lb" for="st-type">Jenis perawatan</label><select id="st-type" data-testid="st-type">${typeOpts(t.id)}</select></div>
+   <div class="row2"><div class="fld"><label class="lb" for="st-v">Periode kontrol</label><input type="number" min="1" id="st-v" data-testid="st-v" value="${t.v}"></div>
+   <div class="fld"><label class="lb" for="st-u">Satuan</label><select id="st-u"><option value="week" ${t.u==='week'?'selected':''}>minggu</option><option value="month" ${t.u==='month'?'selected':''}>bulan</option></select></div></div>
+   <div class="fld"><label class="lb" for="st-date">Tanggal mulai</label><input type="date" id="st-date" value="${TODAY}"></div>`,
+   `<button class="btn" data-act="close">Batal</button><button class="btn primary" data-act="startsave" data-id="${pid}" data-testid="start-save">Mulai perawatan</button>`);
+}
+function openStatus(pid){
+  const p=pat(pid),opts=[['konsultasi','Konsultasi','Belum memulai perawatan'],['aktif','Aktif','Menjalani perawatan, masuk recall kontrol'],['retensi','Retensi','Memakai retainer, kontrol berkala'],['selesai','Selesai','Perawatan tuntas'],['batal','Batal','Perawatan dibatalkan, keluar dari semua recall, riwayat tetap ada'],['tidaklanjut','Tidak lanjut','Konsultasi tidak berlanjut ke perawatan']]
+    .filter(o=>p.consult||!['konsultasi','tidaklanjut'].includes(o[0])||p.status===o[0]);
+  modal(`Ubah status, ${esc(p.name)}`,opts.map(o=>`<label class="radio"><input type="radio" name="pst" value="${o[0]}" ${p.status===o[0]?'checked':''}><div><b>${o[1]}</b><span>${o[2]}</span></div></label>`).join(''),
+   `<button class="btn" data-act="close">Batal</button><button class="btn primary" data-act="statussave" data-id="${pid}" data-testid="status-save">Simpan</button>`);
+}
+
+/* ---------- actions ---------- */
+const A={
+ close:closeModal,
+ bg:(id,e,t)=>{if(e.target===t)closeModal()},
+ done(id){const a=appts.find(x=>x.id===id),p=pat(a.pid);a.status='done';rerender();
+  if(a.kind==='kontrol')openBooking(a.pid,{kind:'kontrol',fromDone:true});
+  else if(a.kind==='odon')openBooking(a.pid,{kind:'hecting',suggested:true});
+  else toast(`${KIND[a.kind]} selesai: ${p.name}`,()=>{a.status='scheduled';rerender()})},
+ missed(id){const a=appts.find(x=>x.id===id);a.status='missed';rerender();toast(`Tidak datang: ${pat(a.pid).name}`,()=>{a.status='scheduled';rerender()})},
+ book:id=>openBooking(id,{kind:'kontrol'}),
+ bookh:id=>openBooking(id,{kind:'hecting'}),
+ kind(id){setKind(id);if(bk.mode==='set')pickTime();renderBooking()},
+ rtab(id){S.recallTab=id;rerender()},
+
+ sort(id){S.sort=S.sort.k===id?{k:id,d:-S.sort.d}:{k:id,d:1};refreshPlist()},
+ afopen(id,e,t){
+  if(S.af===id){closePop();return}
+  S.af=id;t.setAttribute('aria-expanded','true');const r=t.getBoundingClientRect(),left=Math.max(8,Math.min(r.left-12,innerWidth-284));
+  $('#pop-root').innerHTML=`<div class="pop" style="top:${r.bottom+8}px;left:${left}px" data-testid="af-menu-${id}" role="dialog" aria-label="Filter ${AFT[id]}"><div class="pop-t">Filter ${AFT[id].toLowerCase()}</div>${filterBody(id)}<div class="pop-f"><button class="btn ghost sm" data-act="afclear" data-id="${id}">Hapus filter</button><button class="btn sm primary" data-act="afclose" data-testid="af-ok">Terapkan</button></div></div>`;
+  const f1=$('#pop-root input');if(f1)f1.focus({preventScroll:true})},
+ afclose(){closePop(true)},
+ afclear(id){S[FK[id]]=null;closePop(true);refreshPlist();const m=$('#modal-root [data-afc="'+id+'"]');if(m)m.outerHTML=filterBody(id)},
+ fsheet(){modal('Filter dan urutan',`<div class="lbl">Status</div><div class="afgrid">${filterBody('status')}</div><div class="lbl" style="margin-top:18px">Perawatan</div><div class="afgrid">${filterBody('tx')}</div>
+   <div class="lbl" style="margin-top:18px">Urutkan</div><select id="f-sort" data-testid="f-sort" aria-label="Urutkan"><option value="name:1">Nama, A ke Z</option><option value="name:-1">Nama, Z ke A</option><option value="tx:1">Perawatan</option><option value="next:1">Kunjungan berikutnya, terdekat dulu</option><option value="status:1">Status</option></select>`,
+   `<button class="btn" data-act="afclearall" data-testid="f-clear">Hapus filter</button><button class="btn primary" data-act="close" data-testid="f-done">Terapkan</button>`);
+  const sel=$('#f-sort');if(sel)sel.value=S.sort.k+':'+S.sort.d},
+ clearq(){S.pq='';S.fStatus=null;S.fTx=null;const i=$('#patient-search');if(i)i.value='';refreshPlist();if(i)i.focus()},
+ skip(id,e){e.preventDefault();const m=$('main');m&&m.focus()},
+ afclearall(){S.fStatus=null;S.fTx=null;refreshPlist();document.querySelectorAll('#modal-root [data-afc]').forEach(b=>{b.outerHTML=filterBody(b.dataset.afc)})},
+ wa(id,e,t){openWA(id,t.dataset.kind)},
+ wasend(id){const ta=$('#wa-msg'),p=pat(id);window.open(waHref(p,ta.value),'_blank','noopener');closeModal();toast('WhatsApp dibuka di tab baru. Pesan belum terkirim sebelum Anda menekan kirim.')},
+ wacopy(){const ta=$('#wa-msg'),ok=()=>toast('Teks disalin');
+  const fb=()=>{ta.focus();ta.select();let r=false;try{r=document.execCommand('copy')}catch(x){}toast(r?'Teks disalin':'Salin manual: teks sudah terpilih')};
+  if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(ta.value).then(ok,fb);else fb()},
+ export(id){exportCsv(id)},
+ addp:openAddPatient,
+ start:openStart,
+ chiv:openChangeInterval,
+ status:openStatus,
+ statussave(id){const p=pat(id),v=(document.querySelector('input[name=pst]:checked')||{}).value;if(v){p.status=v}closeModal();rerender();toast('Status diperbarui')},
+ startsave(id){
+  const p=pat(id),t=tx($('#st-type').value),v=parseInt($('#st-v').value,10),u=$('#st-u').value,d=$('#st-date').value||TODAY;
+  if(!t||!(v>=1))return;
+  p.tx=t.id;p.status=t.id==='ret'?'retensi':'aktif';p.start=d;p.iv=[{date:d,v,u,note:'Disepakati saat memulai perawatan'}];
+  closeModal();rerender();toast(`Perawatan dimulai: ${p.name}`)},
+ fucontact(id){const p=pat(id),prev=p.consult.contacts.slice();p.consult.contacts.push(TODAY);
+  leave(fuCount(p)>=FU_MAX?'#none':`[data-row="fu-${id}"]`,()=>{rerender();toast(`${p.name}: dihubungi ${fuCount(p)} dari ${FU_MAX}`,()=>{p.consult.contacts=prev;rerender()})})},
+ fulost(id){const p=pat(id);p.status='tidaklanjut';leave(`[data-row="fu-${id}"]`,()=>{rerender();toast(`${p.name} ditandai tidak lanjut`,()=>{p.status='konsultasi';rerender()})})},
+ cprev(){const mo=S.calMode==='month'&&matchMedia('(min-width:960px)').matches;if(mo)S.calMonth=addMonths(S.calMonth,-1);else S.calWeek=addDays(S.calWeek,-7);rerender()},
+ cnext(){const mo=S.calMode==='month'&&matchMedia('(min-width:960px)').matches;if(mo)S.calMonth=addMonths(S.calMonth,1);else S.calWeek=addDays(S.calWeek,7);rerender()},
+ ctoday(){S.calWeek=weekStart(TODAY);S.calMonth=TODAY.slice(0,8)+'01';rerender()},
+ cmode(id){S.calMode=id;if(id==='month')S.calMonth=addDays(S.calWeek,3).slice(0,8)+'01';else S.calWeek=S.calMonth.slice(0,7)===TODAY.slice(0,7)?weekStart(TODAY):weekStart(S.calMonth);rerender()},
+ cexp(id){S.calOpen[id]=1;rerender()},
+ cweek(id){S.calMode='week';S.calWeek=weekStart(id);rerender()},
+ hint(id,e,t){const ta=document.getElementById(t.dataset.for),s=ta.selectionStart??ta.value.length,en=ta.selectionEnd??s;ta.value=ta.value.slice(0,s)+id+ta.value.slice(en);ta.focus();ta.selectionStart=ta.selectionEnd=s+id.length;ta.dispatchEvent(new Event('input',{bubbles:true}))},
+ backup(){toast('Prototype: cadangan tidak benar-benar dibuat')},
+ pin(){modal('Ubah PIN',`<div class="fld"><label class="lb" for="pin-old">PIN saat ini</label><input id="pin-old" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div><div class="fld"><label class="lb" for="pin-new">PIN baru <span>4 sampai 6 angka</span></label><input id="pin-new" data-testid="pin-new" type="password" inputmode="numeric" maxlength="6" autocomplete="off" aria-describedby="pin-err"></div><div class="help" id="pin-err" data-testid="pin-error" role="alert"></div><p class="pnote" style="margin-top:0"><i></i>Prototype: PIN tidak benar-benar diganti. Login tetap menerima 4 angka apa saja.</p>`,`<button class="btn" data-act="close">Batal</button><button class="btn primary" data-act="pinsave" data-testid="pin-save">Simpan</button>`)},
+ pinsave(){const v=$('#pin-new').value;if(!/^\d{4,6}$/.test(v)){$('#pin-err').textContent='PIN baru harus 4 sampai 6 angka.';$('#pin-new').setAttribute('aria-invalid','true');$('#pin-new').focus();return}closeModal();toast('Prototype: PIN tidak benar-benar diganti')},
+ reset(){modal('Reset data contoh?','<p>Semua perubahan di browser ini akan dihapus dan data contoh dibuat ulang dari tanggal hari ini.</p>','<button class="btn" data-act="close">Batal</button><button class="btn bad" data-act="resetgo" data-testid="reset-confirm">Reset data contoh</button>')},
+ resetgo(){resetData();closeModal();rerender();toast('Data contoh dibuat ulang')},
+ key:id=>pressKey(id),keyb:()=>pressKey('b'),
+ booksave:saveBooking,
+ appt:id=>openAppt(id),apptresch:id=>{closeModal();openReschedule(id)},
+ apptpat(id){closeModal();location.hash='#patient/'+id},
+ apptcancel(id){const a=appts.find(x=>x.id===id);a.status='cancelled';closeModal();rerender();toast('Kunjungan dibatalkan',()=>{a.status='scheduled';rerender()})},
+ sug(id){bk.sel=id;if(bk.mode==='set')pickTime();renderBooking()},
+ hday(id){bk.sel=id;if(bk.mode==='set')pickTime();renderBooking()},
+ tmode(id){bk.mode=id;if(id==='set')pickTime();renderBooking()},
+ tchip(id){bk.time=id;renderBooking()},
+ reason(id){bk.reason=+id;renderBooking()},
+ qchip(id,e,t){$('#iv-value').value=t.dataset.v;$('#iv-unit').value=t.dataset.u;syncChips()},
+ rday(id){const n=+id,d=S.rules.days;S.rules.days=d.includes(n)?d.filter(x=>x!==n):d.concat(n);rerender()},
+ ivsave(pid){
+  const v=parseInt($('#iv-value').value,10),u=$('#iv-unit').value,date=$('#iv-date').value||TODAY,note=$('#iv-note').value.trim();
+  if(!(v>=1))return;
+  pat(pid).iv.push({date,v,u,note});closeModal();rerender();toast(`Periode kontrol diperbarui: ${ivTxt(v,u)}`)},
+ npsave(){
+  const name=$('#np-name').value.trim(),ph=$('#np-phone').value.trim(),st=$('#np-status').value,n=normPhone(ph);
+  const err=(m,f)=>{$('#np-err').textContent=m;document.querySelectorAll('#mb [aria-invalid]').forEach(x=>x.removeAttribute('aria-invalid'));const el=$(f);el.setAttribute('aria-invalid','true');el.focus()};
+  if(!name)return err('Nama wajib diisi.','#np-name');
+  if(!/^62\d{8,13}$/.test(n))return err('Masukkan nomor WhatsApp yang valid, contoh 0812-3456-7890.','#np-phone');
+  const id='p'+(patients.length+1+Math.floor(Math.random()*1000));
+  if(st==='konsultasi'){
+    const cd=$('#np-cdate').value||TODAY,tid=$('#np-ctype').value||null;
+    patients.push({id,name,phone:ph,tx:tid,status:'konsultasi',start:cd,slot:'10:00',iv:[],consult:{date:cd,contacts:[]}});
+  }else{
+    const v=parseInt($('#np-v').value,10),type=$('#np-type').value,start=$('#np-start').value||TODAY;
+    if(!(v>=1))return err('Periode kontrol minimal 1.','#np-v');
+    patients.push({id,name,phone:ph,tx:type,status:type==='ret'?'retensi':'aktif',start,slot:'10:00',iv:[{date:start,v,u:$('#np-u').value,note:'Bawaan untuk '+tx(type).name}],consult:null});
+  }
+  S.pq='';closeModal();rerender();toast(`Pasien ditambahkan: ${name}`)},
+};
+function refreshPlist(){const el=$('#pwrap');if(el)keepFocus(el,()=>{el.innerHTML=patientBlock()});const l=$('#fbl');if(l)l.textContent=fcount()?'Filter ('+fcount()+')':'Filter'}
+function closePop(ret){const was=S.af;S.af=null;const r=$('#pop-root');if(r)r.innerHTML='';if(was){const b=document.querySelector(`[data-testid="af-${was}"]`);if(b){b.setAttribute('aria-expanded','false');if(ret)b.focus({preventScroll:true})}}}
+function applyFilter(box){
+  const g=box.dataset.afc,all=[...box.querySelectorAll('[data-afi]')],chk=all.filter(x=>x.checked).map(x=>x.dataset.afi);
+  S[FK[g]]=chk.length===all.length?null:chk;
+  box.querySelector('[data-afall]').checked=!S[FK[g]];
+  refreshPlist();
+}
+document.addEventListener('click',e=>{
+  if(S.af&&!e.target.closest('.pop')&&!e.target.closest('.fb'))closePop();
+  const t=e.target.closest('[data-act]');
+  if(t){const f=A[t.dataset.act];if(f){f(t.dataset.id,e,t);return}}
+});
+const prevTpl=()=>{const el=$('#tpl-preview');if(el)el.textContent=fillTpl(S.template,pat('p1'),nextOpen(TODAY),'10:00');const c=$('#call-preview');if(c)c.textContent=fillTpl(S.callTemplate,pat('p1'),openDay(T(3)));const f=$('#fu-preview');if(f)f.textContent=fillTpl(S.fuTemplate,pat('p20'))};
+document.addEventListener('input',e=>{
+  const id=e.target.id,d=e.target.dataset;
+  if(id==='patient-search'){S.pq=e.target.value;refreshPlist()}
+  else if(id==='wa-template'){S.template=e.target.value;prevTpl();save()}
+  else if(id==='call-template'){S.callTemplate=e.target.value;prevTpl();save()}
+  else if(id==='fu-template'){S.fuTemplate=e.target.value;prevTpl();save()}
+  else if(id==='clinic-name'){S.clinic=e.target.value||CLINIC;prevTpl();save()}
+  else if(id==='rs-note'){bk.note=e.target.value}
+  else if(id==='rule-max'){const v=parseInt(e.target.value,10);if(v>=1)S.rules.max=v;save()}
+  else if(id==='rule-window'){const v=parseInt(e.target.value,10);if(v>=0)S.rules.window=v;save()}
+  else if(id==='hecting-weeks'){const v=parseInt(e.target.value,10);if(v>=1)S.hectingWeeks=v;save()}
+  else if(id==='rule-from'||id==='rule-to'){if(/^\d\d:\d\d$/.test(e.target.value)){S.rules[id==='rule-from'?'from':'to']=e.target.value;save()}}
+  else if(id==='iv-value')syncChips();
+  else if(d.tv){const t=tx(d.tv),v=parseInt(e.target.value,10);if(t&&v>=1){t.v=v;save()}}
+});
+document.addEventListener('change',e=>{
+  const id=e.target.id,d=e.target.dataset;
+  if(id==='iv-unit')syncChips();
+  else if(id==='f-sort'){const [k,dd]=e.target.value.split(':');S.sort={k,d:+dd};refreshPlist()}
+  else if(e.target.dataset.afall!==undefined){const box=e.target.closest('[data-afc]');box.querySelectorAll('[data-afi]').forEach(x=>x.checked=e.target.checked);applyFilter(box)}
+  else if(e.target.dataset.afi!==undefined){applyFilter(e.target.closest('[data-afc]'))}
+  else if(id==='np-type'||id==='st-type'){const t=tx(e.target.value),k=id==='np-type'?'np':'st';if(t){$('#'+k+'-v').value=t.v;$('#'+k+'-u').value=t.u}}
+  else if(id==='np-status'){const kon=e.target.value==='konsultasi';$('#np-kon').hidden=!kon;$('#np-act').hidden=kon}
+  else if(d.tu){const t=tx(d.tu);if(t){t.u=e.target.value;save()}}
+});
+document.addEventListener('keydown',e=>{
+  if((location.hash==='#login'||!location.hash)&&!e.target.closest('input,textarea,select')){if(/^\d$/.test(e.key))pressKey(e.key);else if(e.key==='Backspace')pressKey('b')}
+  if(e.key==='Escape'){if($('#modal-root .modal'))closeModal();else closePop(true)}
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches('[role=button][data-act]')){e.preventDefault();e.target.click()}
+  if(e.key==='Tab'&&$('#modal-root .modal')){const m=$('#modal-root .modal'),f=[...m.querySelectorAll(FOCUSABLE)].filter(x=>x.offsetParent!==null);
+    if(f.length){const a=f[0],z=f[f.length-1],ae=document.activeElement;if(e.shiftKey&&(ae===a||ae===m)){e.preventDefault();z.focus()}else if(!e.shiftKey&&ae===z){e.preventDefault();a.focus()}}}
+  const tab=e.target.closest&&e.target.closest('[role=tab]');
+  if(tab&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){const L=[...tab.parentElement.querySelectorAll('[role=tab]')],i=L.indexOf(tab),j=e.key==='Home'?0:e.key==='End'?L.length-1:(i+(e.key==='ArrowRight'?1:-1)+L.length)%L.length;
+    e.preventDefault();const id=L[j].dataset.testid;L[j].click();const n=document.querySelector(`[data-testid="${id}"]`);n&&n.focus()}
+});
+document.addEventListener('focusout',e=>{if(S.af){const p=$('#pop-root .pop'),n=e.relatedTarget;if(p&&n&&!p.contains(n)&&!(n.closest&&n.closest('.fb')))closePop()}});
+window.addEventListener('scroll',()=>{if(S.af)closePop()},{passive:true});
+window.addEventListener('resize',()=>{if(document.querySelector('[data-wire]'))drawWires()});
+window.addEventListener('hashchange',route);
+route();
+
+</script>
+</body>
+</html>
